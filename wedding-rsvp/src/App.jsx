@@ -50,7 +50,16 @@ function App() {
   };
 
   useEffect(() => {
-  document.body.classList.add("samsung-browser");
+  const ua = navigator.userAgent.toLowerCase();
+
+  const isSamsungBrowser =
+    ua.includes("samsung") ||
+    ua.includes("samsungbrowser") ||
+    ua.includes("samsung browser");
+
+  if (isSamsungBrowser) {
+    document.body.classList.add("samsung-browser");
+  }
 }, []);
 
   const addGuest = () => {

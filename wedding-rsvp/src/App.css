@@ -1024,21 +1024,26 @@ textarea::placeholder {
 }
 
 .samsung-browser .page {
-  background: #dfe7d8 !important;
+  background-image: url("/white-bg.png") !important;
+
+  background-size: cover !important;
+  background-position: center top !important;
+  background-repeat: repeat-y !important;
 }
 
 .samsung-browser .hero,
 .samsung-browser .card,
-.samsung-browser .success-card {
-  background: #f3f6ef !important;
-}
-
+.samsung-browser .success-card,
 .samsung-browser .bus-section,
 .samsung-browser .guest-box {
-  background: #e8eee2 !important;
+  background-image: url("/samsung-card.png") !important;
+
+  background-size: cover !important;
+  background-position: center !important;
+  background-repeat: repeat !important;
 }
 
 .samsung-browser input[type="text"],
 .samsung-browser textarea {
-  background: #fafcf8 !important;
+  background: #ffffff !important;
 }

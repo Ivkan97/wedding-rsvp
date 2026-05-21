@@ -36,31 +36,19 @@ function App() {
   }, []);
 
   useEffect(() => {
-  const ua = navigator.userAgent.toLowerCase();
+    const ua = navigator.userAgent.toLowerCase();
 
-  const isSamsungBrowser =
-    ua.includes("samsung") ||
-    ua.includes("samsungbrowser") ||
-    ua.includes("samsung browser");
+    const isSamsungBrowser =
+      ua.includes("samsung") ||
+      ua.includes("samsungbrowser") ||
+      ua.includes("samsung browser");
 
-  const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
-
-  const updateSamsungTheme = () => {
-    if (isSamsungBrowser && mediaQuery.matches) {
+    if (isSamsungBrowser) {
       document.body.classList.add("samsung-browser");
     } else {
       document.body.classList.remove("samsung-browser");
     }
-  };
-
-  updateSamsungTheme();
-
-  mediaQuery.addEventListener("change", updateSamsungTheme);
-
-  return () => {
-    mediaQuery.removeEventListener("change", updateSamsungTheme);
-  };
-}, []);
+  }, []);
 
   const handleGuestChange = (index, field, value) => {
     const updatedGuests = [...guests];

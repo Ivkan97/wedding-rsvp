@@ -37,7 +37,7 @@ body,
 }
 
 body::after {
-  content: "v14";
+  content: "v15";
   position: fixed;
   top: 12px;
   right: 12px;
@@ -1041,4 +1041,11 @@ textarea::placeholder {
 .samsung-browser input[type="text"],
 .samsung-browser textarea {
   background: #f7f6f1 !important;
+}
+
+.samsung-browser .page {
+  background-image: url("/Desktopkarta.png") !important;
+  background-size: cover !important;
+  background-position: center top !important;
+  background-repeat: repeat-y !important;
 }

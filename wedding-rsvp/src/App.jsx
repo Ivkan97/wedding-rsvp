@@ -49,6 +49,10 @@ function App() {
     setGuests(updatedGuests);
   };
 
+  useEffect(() => {
+  document.body.classList.add("samsung-browser");
+}, []);
+
   const addGuest = () => {
     setGuests([...guests, { name: "", isChild: false }]);
   };

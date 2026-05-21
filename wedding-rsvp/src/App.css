@@ -1050,3 +1050,15 @@ textarea::placeholder {
     background: #ffffff !important;
   }
 }
+
+.samsung-browser::before {
+  content: "SAMSUNG CLASS ACTIVE";
+  position: fixed;
+  top: 50px;
+  right: 12px;
+  z-index: 999999;
+  background: lime;
+  color: black;
+  padding: 6px 10px;
+  font-size: 12px;
+}

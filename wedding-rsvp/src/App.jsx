@@ -34,7 +34,7 @@ function App() {
 
     return () => clearInterval(timer);
   }, []);
-
+/*
   useEffect(() => {
   const ua = navigator.userAgent.toLowerCase();
 
@@ -48,6 +48,28 @@ function App() {
   } else {
     document.body.classList.remove("samsung-browser");
   }
+}, []); */
+
+useEffect(() => {
+  const revealElements =
+    document.querySelectorAll(".reveal");
+
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("active");
+        }
+      });
+    },
+    {
+      threshold: 0.12,
+    }
+  );
+
+  revealElements.forEach((el) => observer.observe(el));
+
+  return () => observer.disconnect();
 }, []);
 
   const handleGuestChange = (index, field, value) => {
@@ -182,7 +204,7 @@ function App() {
           <p>dana do vjenčanja</p>
         </div>
 
-        <div className="timeline">
+        <div className="timeline reveal">
           <div className="timeline-curved">
             <svg
               className="timeline-path"
@@ -244,7 +266,7 @@ function App() {
         </div>
 
 
-        <section className="bus-section">
+        <section className="bus-section reveal">
           <h2>Organizirani prijevoz autobusom</h2>
           <p>
             Autobus bi okvirno prolazio rutom:
@@ -274,7 +296,7 @@ function App() {
         <p>Molimo odgovorite na pozivnicu do 15. srpnja 2026.</p>
 
         {submitted && (
-          <section className="success-card">
+          <section className="success-card reveal">
             <h2>Hvala na odgovoru!</h2>
             <p>Vaša potvrda je uspješno zaprimljena.</p>
             <p className="success-note">
@@ -331,7 +353,7 @@ function App() {
 
       {showForm && (
         <section
-          className={`card ${isFormClosing ? "card-closing" : ""}`}
+          className={`card reveal ${isFormClosing ? "card-closing" : ""}`}
           ref={formRef}
         >
           <form onSubmit={handleSubmit}>

@@ -1044,8 +1044,23 @@ textarea::placeholder {
 }
 
 .samsung-browser .page {
-  background-image: url("/Desktopkarta.png") !important;
+ /* Slika iza kartice */
+  background-image: url("/samsung-card.jpg") !important; 
   background-size: cover !important;
   background-position: center top !important;
   background-repeat: repeat-y !important;
+}
+
+.samsung-browser .hero,
+.samsung-browser .card,
+.samsung-browser .success-card,
+.samsung-browser .bus-section,
+.samsung-browser .guest-box {
+  /* Slika same kartice */
+  background-image: url("/samsung-card.jpg") !important;
+
+  background-size: cover !important;
+  background-position: center !important;
+
+  border: 1px solid rgba(47, 58, 45, 0.14) !important;
 }

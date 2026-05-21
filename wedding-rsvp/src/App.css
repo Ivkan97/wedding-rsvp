@@ -1015,3 +1015,50 @@ textarea::placeholder {
   }
 }
 
+.samsung-browser .hero,
+.samsung-browser .card,
+.samsung-browser .success-card,
+.samsung-browser .bus-section,
+.samsung-browser .guest-box {
+  background: #2f3a2d !important;
+
+  color: #ffffff !important;
+
+  border: 1px solid rgba(255, 255, 255, 0.12) !important;
+}
+
+.samsung-browser .hero h1,
+.samsung-browser .hero h2,
+.samsung-browser .hero h3,
+.samsung-browser .hero p,
+.samsung-browser .script,
+.samsung-browser .date,
+.samsung-browser .question,
+.samsung-browser label,
+.samsung-browser .timeline-event p,
+.samsung-browser .timeline-event h3,
+.samsung-browser .days-counter span,
+.samsung-browser .days-counter p,
+.samsung-browser .small-note,
+.samsung-browser .success-note {
+  color: #ffffff !important;
+}
+
+.samsung-browser .map-link {
+  color: #dfe7d8 !important;
+  border-bottom-color: rgba(223, 231, 216, 0.5) !important;
+}
+
+.samsung-browser input[type="text"],
+.samsung-browser textarea {
+  background: rgba(255, 255, 255, 0.08) !important;
+
+  border: 1px solid rgba(255, 255, 255, 0.18) !important;
+
+  color: #ffffff !important;
+}
+
+.samsung-browser input::placeholder,
+.samsung-browser textarea::placeholder {
+  color: rgba(255, 255, 255, 0.7) !important;
+}

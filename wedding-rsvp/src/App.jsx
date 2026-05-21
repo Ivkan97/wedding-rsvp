@@ -35,6 +35,21 @@ function App() {
     return () => clearInterval(timer);
   }, []);
 
+  useEffect(() => {
+  const ua = navigator.userAgent.toLowerCase();
+
+  const isSamsungBrowser =
+    ua.includes("samsung") ||
+    ua.includes("samsungbrowser") ||
+    ua.includes("samsung browser");
+
+  if (isSamsungBrowser) {
+    document.body.classList.add("samsung-browser");
+  } else {
+    document.body.classList.remove("samsung-browser");
+  }
+}, []);
+
   const handleGuestChange = (index, field, value) => {
     const updatedGuests = [...guests];
     updatedGuests[index][field] = value;

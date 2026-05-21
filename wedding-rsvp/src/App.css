@@ -1024,21 +1024,21 @@ textarea::placeholder {
 }
 
 .samsung-browser .page {
-  background: #e7eadf !important;
+  background: #8fa487 !important;
 }
 
 .samsung-browser .hero,
 .samsung-browser .card,
 .samsung-browser .success-card {
-  background: #f7f6f1 !important;
+  background: #d7e2cf !important;
 }
 
 .samsung-browser .bus-section,
 .samsung-browser .guest-box {
-  background: #eef1ea !important;
+  background: #c3d1bb !important;
 }
 
 .samsung-browser input[type="text"],
 .samsung-browser textarea {
-  background: #fffdf8 !important;
+  background: #edf3e8 !important;
 }

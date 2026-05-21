@@ -1074,3 +1074,40 @@ html {
 body {
   mix-blend-mode: normal !important;
 }
+
+/* ==========================================================================
+   WHATSAPP IN-APP BROWSER POPRAVAK
+   ========================================================================== */
+
+/* WhatsApp ugrađeni preglednik često koristi ovu specifičnu direktivu. 
+   Ovim mu zabranjujemo da samostalno mijenja svjetlinu i kontrast boja. */
+:root {
+  color-scheme: light !important;
+}
+
+html, body, #root, .page {
+  /* Ponovno zaključavamo svijetlu pozadinu */
+  background-color: #fffdf8 !important;
+  background-image: none !important;
+  color: #2f3a2d !important;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background-image: url("/white-bg.png") !important;
+  background-size: cover;
+  background-position: top center;
+  background-repeat: no-repeat;
+  background-color: #fffdf8 !important;
+}
+
+/* Prisilno vraćamo WhatsAppov skriveni overlay (ako ga aplikacija ubaci) u prozirno */
+@media (prefers-color-scheme: dark) {
+  body {
+    background-color: #fffdf8 !important;
+  }
+}

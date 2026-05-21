@@ -1023,42 +1023,37 @@ textarea::placeholder {
   }
 }
 
-@media (prefers-color-scheme: dark) {
-  .samsung-browser .page {
-    background: url("/white-bg.png") center top / cover repeat-y !important;
-  }
+.samsung-browser .page {
+  background-image: url("/samsung-bg.png") !important;
 
-  .samsung-browser .hero,
-  .samsung-browser .card,
-  .samsung-browser .success-card,
-  .samsung-browser .bus-section,
-  .samsung-browser .guest-box {
-    background: url("/palette.png") center / cover repeat !important;
-    border: 1px solid rgba(47, 58, 45, 0.14) !important;
-  }
-
-  .samsung-browser .photo-hero::after {
-    background: linear-gradient(
-      to bottom,
-      rgba(255, 255, 255, 0) 42%,
-      #f4f1e8 100%
-    ) !important;
-  }
-
-  .samsung-browser input[type="text"],
-  .samsung-browser textarea {
-    background: #ffffff !important;
-  }
+  background-size: cover !important;
+  background-position: center top !important;
+  background-repeat: repeat-y !important;
 }
 
-.samsung-browser::before {
-  content: "SAMSUNG CLASS ACTIVE";
-  position: fixed;
-  top: 50px;
-  right: 12px;
-  z-index: 999999;
-  background: lime;
-  color: black;
-  padding: 6px 10px;
-  font-size: 12px;
+.samsung-browser .hero,
+.samsung-browser .card,
+.samsung-browser .success-card,
+.samsung-browser .bus-section,
+.samsung-browser .guest-box {
+  background-image: url("/white-bg.png") !important;
+
+  background-size: cover !important;
+  background-position: center !important;
+  background-repeat: repeat !important;
+
+  border: 1px solid rgba(47, 58, 45, 0.14) !important;
+}
+
+.samsung-browser .photo-hero::after {
+  background: linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0) 42%,
+    #f4f1e8 100%
+  ) !important;
+}
+
+.samsung-browser input[type="text"],
+.samsung-browser textarea {
+  background: #ffffff !important;
 }

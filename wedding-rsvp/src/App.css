@@ -1024,10 +1024,7 @@ textarea::placeholder {
 }
 
 .samsung-dark .page {
-  background-image: url("/white-bg.png") !important;
-  background-size: cover !important;
-  background-position: center top !important;
-  background-repeat: repeat-y !important;
+  background: url("/white-bg.png") center top / cover repeat-y !important;
 }
 
 .samsung-dark .hero,
@@ -1035,11 +1032,7 @@ textarea::placeholder {
 .samsung-dark .success-card,
 .samsung-dark .bus-section,
 .samsung-dark .guest-box {
-  background-image: url("/palette.png") !important;
-  background-size: cover !important;
-  background-position: center !important;
-  background-repeat: repeat !important;
-
+  background: url("/palette.png") center / cover repeat !important;
   border: 1px solid rgba(47, 58, 45, 0.14) !important;
 }
 

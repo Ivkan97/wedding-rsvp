@@ -37,7 +37,7 @@ body,
 }
 
 body::after {
-  content: "v15";
+  content: "v16";
   position: fixed;
   top: 12px;
   right: 12px;

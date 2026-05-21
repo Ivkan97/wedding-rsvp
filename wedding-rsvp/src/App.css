@@ -1020,9 +1020,7 @@ textarea::placeholder {
 .samsung-browser .success-card,
 .samsung-browser .bus-section,
 .samsung-browser .guest-box {
-  background: #2f3a2d !important;
-
-  color: #ffffff !important;
+  background: #70806c !important;
 
   border: 1px solid rgba(255, 255, 255, 0.12) !important;
 }
@@ -1042,23 +1040,4 @@ textarea::placeholder {
 .samsung-browser .small-note,
 .samsung-browser .success-note {
   color: #ffffff !important;
-}
-
-.samsung-browser .map-link {
-  color: #dfe7d8 !important;
-  border-bottom-color: rgba(223, 231, 216, 0.5) !important;
-}
-
-.samsung-browser input[type="text"],
-.samsung-browser textarea {
-  background: rgba(255, 255, 255, 0.08) !important;
-
-  border: 1px solid rgba(255, 255, 255, 0.18) !important;
-
-  color: #ffffff !important;
-}
-
-.samsung-browser input::placeholder,
-.samsung-browser textarea::placeholder {
-  color: rgba(255, 255, 255, 0.7) !important;
 }

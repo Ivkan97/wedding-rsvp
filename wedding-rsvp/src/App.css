@@ -1047,6 +1047,7 @@ textarea::placeholder {
 
 .samsung-browser .photo-hero {
   position: relative;
+  overflow: hidden;
 }
 
 .samsung-browser .photo-hero::after {

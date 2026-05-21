@@ -1045,11 +1045,20 @@ textarea::placeholder {
   border: 1px solid rgba(47, 58, 45, 0.14) !important;
 }
 
+.samsung-browser .photo-hero {
+  position: relative;
+}
+
 .samsung-browser .photo-hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
   background: linear-gradient(
     to bottom,
-    rgba(255, 255, 255, 0) 38%,
-    rgba(244, 241, 232, 0.72) 68%,
+    rgba(255, 255, 255, 0) 35%,
+    rgba(244, 241, 232, 0.45) 68%,
     #f4f1e8 100%
   ) !important;
 }

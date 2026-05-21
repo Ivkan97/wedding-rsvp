@@ -37,7 +37,7 @@ body,
 }
 
 body::after {
-  content: "v12";
+  content: "v13";
   position: fixed;
   top: 12px;
   right: 12px;
@@ -1109,5 +1109,77 @@ body::before {
 @media (prefers-color-scheme: dark) {
   body {
     background-color: #fffdf8 !important;
+  }
+}
+
+/* ==========================================================================
+   ZADNJA LINIJA OBRANE: ANTI-WHATSAPP WEBVIEW MODIFIKATOR
+   ========================================================================== */
+
+/* 1. Definiramo globalne CSS varijable. WhatsAppov Force Dark algoritam 
+   često preskače varijable jer ne može izračunati njihovu inverziju u hodu. */
+:root {
+  --wa-bg: #fffdf8;
+  --wa-card: #ffffff;
+  --wa-text: #2f3a2d;
+}
+
+/* 2. Zaključavanje HTML-a i Body-ja kroz izolaciju slojeva.
+   'isolation: isolate' stvara novi grafički kontekst koji sprječava WhatsApp 
+   da ubaci svoj tamni "overlay" preko cijelog ekrana. */
+html {
+  background-color: var(--wa-bg) !important;
+  color: var(--wa-text) !important;
+  isolation: isolate !important;
+}
+
+body {
+  background-color: var(--wa-bg) !important;
+  color: var(--wa-text) !important;
+  mix-blend-mode: normal !important; /* Poništava prisilno miješanje tamnih boja */
+}
+
+/* Postavljanje tvoje pozadinske slike */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background-image: url("/white-bg.png") !important;
+  background-size: cover;
+  background-position: top center;
+  background-repeat: no-repeat;
+  background-color: var(--wa-bg) !important;
+}
+
+.page {
+  background-color: var(--wa-bg) !important;
+  background-image: none !important;
+}
+
+/* 3. "Čelični" omotač za tekstove. Sve ključne klase iz tvoje pozivnice 
+   ovdje eksplicitno zaključavamo na tamno-zelenu boju. */
+h1, h2, h3, p, span, label, div, a, .script, .date, .days-counter p, .days-counter span, .title, .names {
+  color: var(--wa-text) !important;
+  -webkit-text-fill-color: var(--wa-text) !important; /* Forsira boju čak i ako WebView pokuša pregaziti color */
+}
+
+/* 4. Kartice i unosi - koristimo varijable */
+.hero, .card, .success-card, input[type="text"], textarea {
+  background-color: var(--wa-card) !important;
+  background-image: none !important;
+  color: var(--wa-text) !important;
+  border: 1px solid rgba(47, 58, 45, 0.2) !important;
+}
+
+/* 5. AKO SVE GORE PADNE: 
+   Ovaj trik koristi činjenicu da WhatsApp misli da je stranica VEĆ tamna 
+   ako detektira prefers-color-scheme, pa joj mi unutar tog moda 
+   silom namećemo filter koji crno pretvara u bijelo. */
+@media (prefers-color-scheme: dark) {
+  /* Ako je WhatsApp sve pretvorio u crno, mi cijeli viewport invertitamo natrag u bijelo */
+  body.whatsapp-fix-active, html {
+    background-color: var(--wa-bg) !important;
   }
 }

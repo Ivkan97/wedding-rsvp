@@ -35,7 +35,7 @@ body,
 * {
   box-sizing: border-box;
 }
-
+/*
 body::after {
   content: "v18";
   position: fixed;
@@ -52,7 +52,7 @@ body::after {
   font-size: 12px;
   font-family: Arial, sans-serif;
 }
-
+*/
 body {
   margin: 0;
   font-family: "Cormorant Garamond", serif;
@@ -636,14 +636,6 @@ h2 {
     opacity: 1;
     transform: translateY(0);
   }
-}
-
-.form-group,
-.guest-box,
-.bus-row,
-textarea,
-input[type="text"] {
-  animation: formReveal 0.65s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
 @media (min-width: 768px) {

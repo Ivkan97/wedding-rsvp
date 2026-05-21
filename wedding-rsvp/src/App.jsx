@@ -1,5 +1,5 @@
 import { supabase } from "./supabaseClient";
-import { Church, Wine, MapPinned } from "lucide-react";
+import { Church, Wine } from "lucide-react";
 import "./App.css";
 import { useEffect, useState, useRef } from "react";
 
@@ -33,21 +33,6 @@ function App() {
     const timer = setInterval(updateDaysLeft, 1000 * 60 * 60);
 
     return () => clearInterval(timer);
-  }, []);
-
-  useEffect(() => {
-    const ua = navigator.userAgent.toLowerCase();
-
-    const isSamsungBrowser =
-      ua.includes("samsung") ||
-      ua.includes("samsungbrowser") ||
-      ua.includes("samsung browser");
-
-    if (isSamsungBrowser) {
-      document.body.classList.add("samsung-browser");
-    } else {
-      document.body.classList.remove("samsung-browser");
-    }
   }, []);
 
   const handleGuestChange = (index, field, value) => {

@@ -1024,7 +1024,7 @@ textarea::placeholder {
 }
 
 .samsung-browser .page {
-  background: #eef1ea !important;
+  background: #e7eadf !important;
 }
 
 .samsung-browser .hero,
@@ -1035,32 +1035,10 @@ textarea::placeholder {
 
 .samsung-browser .bus-section,
 .samsung-browser .guest-box {
-  background: rgba(95, 107, 92, 0.08) !important;
+  background: #eef1ea !important;
 }
 
 .samsung-browser input[type="text"],
 .samsung-browser textarea {
-  background: #f7f6f1 !important;
-}
-
-.samsung-browser .page {
- /* Slika iza kartice */
-  background-image: url("/ivory.jpg") !important; 
-  background-size: cover !important;
-  background-position: center top !important;
-  background-repeat: repeat-y !important;
-}
-
-.samsung-browser .hero,
-.samsung-browser .card,
-.samsung-browser .success-card,
-.samsung-browser .bus-section,
-.samsung-browser .guest-box {
-  /* Slika same kartice */
-  background-image: url("/green1.jpg") !important;
-
-  background-size: cover !important;
-  background-position: center !important;
-
-  border: 1px solid rgba(47, 58, 45, 0.14) !important;
+  background: #fffdf8 !important;
 }

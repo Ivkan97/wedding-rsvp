@@ -1057,3 +1057,22 @@ html {
 body {
   filter: none !important;
 }
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -9999;
+  pointer-events: none;
+  background-image: url("/white-bg.png");
+  background-size: cover;
+  background-position: top center;
+  background-repeat: no-repeat;
+}
+
+html,
+body,
+#root,
+.page {
+  background: transparent !important;
+}

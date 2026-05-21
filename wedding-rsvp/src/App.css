@@ -1035,7 +1035,7 @@ textarea::placeholder {
 .samsung-browser .success-card,
 .samsung-browser .bus-section,
 .samsung-browser .guest-box {
-  background-image: url("/palette.png") !important;
+  background-image: url("/white-bg.png") !important;
   background-size: cover !important;
   background-position: center !important;
   background-repeat: repeat !important;

@@ -37,7 +37,7 @@ body,
 }
 
 body::after {
-  content: "v9";
+  content: "v10";
   position: fixed;
   top: 12px;
   right: 12px;
@@ -1023,35 +1023,40 @@ textarea::placeholder {
   }
 }
 
-html,
-body,
-#root {
-  background-image: linear-gradient(180deg, #fffdf8 0%, #fffdf8 100%) !important;
-  background-color: #fffdf8 !important;
-}
-
-.page {
-  background-image: linear-gradient(180deg, #fffdf8 0%, #f7f6f1 45%, #e8ede3 100%) !important;
-  background-color: #fffdf8 !important;
-  box-shadow: none !important;
-}
-
+/* Zamijeni onaj zadnji blok s ovim sigurnim kodom: */
 body::before {
   content: "";
   position: fixed;
   inset: 0;
   z-index: -1;
   pointer-events: none;
-
   background-image: url("/white-bg.png");
   background-size: cover;
   background-position: top center;
   background-repeat: no-repeat;
+  /* Dodajemo pozadinsku boju iza slike kao fallback ako tablet odluči blokirati sliku */
+  background-color: #fffdf8 !important; 
 }
 
+/* Umjesto transparent, forsiramo čvrste svijetle pozadine na ključnim elementima */
 html,
 body,
-#root,
+#root {
+  background-color: #fffdf8 !important;
+}
+
 .page {
-  background: transparent !important;
+  /* Zadržavamo tvoj gradijent, ali osiguravamo čvrstu bazu */
+  background: linear-gradient(180deg, #fffdf8 0%, #f7f6f1 45%, #e8ede3 100%) !important;
+  box-shadow: none !important;
+}
+
+/* Eksplicitno zaključaj kartice i unose na bijelu boju da ih sustav ne može invertirati */
+.hero,
+.card,
+.success-card,
+input[type="text"],
+textarea {
+  background-color: #ffffff !important;
+  background-image: none !important; /* Sprječava sustav da ubaci tamne gradijente */
 }

@@ -36,25 +36,12 @@ function App() {
   }, []);
 
   useEffect(() => {
-    const isSamsungBrowser = navigator.userAgent.includes("SamsungBrowser");
-    const darkModeQuery = window.matchMedia("(prefers-color-scheme: dark)");
+  const isSamsungBrowser = navigator.userAgent.includes("SamsungBrowser");
 
-    const updateSamsungTheme = () => {
-      if (isSamsungBrowser && darkModeQuery.matches) {
-        document.body.classList.add("samsung-dark");
-      } else {
-        document.body.classList.remove("samsung-dark");
-      }
-    };
-
-    updateSamsungTheme();
-
-    darkModeQuery.addEventListener("change", updateSamsungTheme);
-
-    return () => {
-      darkModeQuery.removeEventListener("change", updateSamsungTheme);
-    };
-  }, []);
+  if (isSamsungBrowser) {
+    document.body.classList.add("samsung-browser");
+  }
+}, []);
 
   const handleGuestChange = (index, field, value) => {
     const updatedGuests = [...guests];

@@ -37,13 +37,23 @@ function App() {
 
   useEffect(() => {
     const isSamsungBrowser = navigator.userAgent.includes("SamsungBrowser");
+    const darkModeQuery = window.matchMedia("(prefers-color-scheme: dark)");
 
-    const isDarkMode =
-      window.matchMedia("(prefers-color-scheme: dark)").matches;
+    const updateSamsungTheme = () => {
+      if (isSamsungBrowser && darkModeQuery.matches) {
+        document.body.classList.add("samsung-dark");
+      } else {
+        document.body.classList.remove("samsung-dark");
+      }
+    };
 
-    if (isSamsungBrowser) {
-      document.body.classList.add("samsung-dark");
-    }
+    updateSamsungTheme();
+
+    darkModeQuery.addEventListener("change", updateSamsungTheme);
+
+    return () => {
+      darkModeQuery.removeEventListener("change", updateSamsungTheme);
+    };
   }, []);
 
   const handleGuestChange = (index, field, value) => {

@@ -992,3 +992,13 @@ textarea::placeholder {
     margin-top: 12px;
   }
 }
+
+body::before {
+  content: "TEST";
+  position: fixed;
+  top: 10px;
+  left: 10px;
+  z-index: 99999;
+  background: red;
+  color: white;
+}

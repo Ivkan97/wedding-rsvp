@@ -1,8 +1,20 @@
 @import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500&family=Josefin+Sans:wght@300;400&family=Cormorant+Garamond:wght@400;500;600&family=Great+Vibes&display=swap");
 
 :root,
-html {
-  color-scheme: light;
+html,
+body,
+#root,
+.page,
+.hero,
+.card,
+.success-card,
+.bus-section,
+.guest-box,
+input,
+textarea,
+button {
+  color-scheme: light only;
+  forced-color-adjust: none;
 }
 
 html,
@@ -27,7 +39,8 @@ body,
 body {
   margin: 0;
   font-family: "Cormorant Garamond", serif;
-  background: #ffffff;
+  background:
+    linear-gradient(180deg, #ffffff 0%, #ffffff 100%);
   color: #2f3a2d;
 }
 
@@ -991,14 +1004,4 @@ textarea::placeholder {
   .secondary-button {
     margin-top: 12px;
   }
-}
-
-body::before {
-  content: "TEST";
-  position: fixed;
-  top: 10px;
-  left: 10px;
-  z-index: 99999;
-  background: red;
-  color: white;
 }

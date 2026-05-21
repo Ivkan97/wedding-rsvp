@@ -37,7 +37,7 @@ body,
 }
 
 body::after {
-  content: "v10";
+  content: "v11";
   position: fixed;
   top: 12px;
   right: 12px;
@@ -1023,7 +1023,16 @@ textarea::placeholder {
   }
 }
 
-/* Zamijeni onaj zadnji blok s ovim sigurnim kodom: */
+/*  ZALIJEPI OVAJ NOVI KOD NA KRAJ DATOTEKE: */
+
+/* 1. Prvo definiramo čvrste, ne-transparentne pozadine za normalan rad */
+html,
+body,
+#root {
+  background-color: #fffdf8 !important;
+  color: #2f3a2d !important;
+}
+
 body::before {
   content: "";
   position: fixed;
@@ -1034,29 +1043,37 @@ body::before {
   background-size: cover;
   background-position: top center;
   background-repeat: no-repeat;
-  /* Dodajemo pozadinsku boju iza slike kao fallback ako tablet odluči blokirati sliku */
-  background-color: #fffdf8 !important; 
-}
-
-/* Umjesto transparent, forsiramo čvrste svijetle pozadine na ključnim elementima */
-html,
-body,
-#root {
   background-color: #fffdf8 !important;
 }
 
 .page {
-  /* Zadržavamo tvoj gradijent, ali osiguravamo čvrstu bazu */
   background: linear-gradient(180deg, #fffdf8 0%, #f7f6f1 45%, #e8ede3 100%) !important;
   box-shadow: none !important;
 }
 
-/* Eksplicitno zaključaj kartice i unose na bijelu boju da ih sustav ne može invertirati */
 .hero,
 .card,
 .success-card,
 input[type="text"],
 textarea {
   background-color: #ffffff !important;
-  background-image: none !important; /* Sprječava sustav da ubaci tamne gradijente */
+  background-image: none !important;
+}
+
+/* 2. Blok koji uništava prisilni Dark Mode na tabletima */
+@media (prefers-color-scheme: dark) {
+  /* Ako tablet na silu okrene u tamno, mi ga filterom vraćamo u svijetlo */
+  html {
+    filter: invert(1) hue-rotate(180deg) !important;
+  }
+
+  /* Slike i ikone okrećemo još jednom da ne izgledaju kao negativi/rendgen */
+  img, 
+  svg,
+  .timeline-icon,
+  .photo-hero img,
+  .bus-map,
+  .mobile-line-dot {
+    filter: invert(1) hue-rotate(180deg) !important;
+  }
 }

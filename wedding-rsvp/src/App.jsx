@@ -36,20 +36,6 @@ function App() {
   }, []);
 
   useEffect(() => {
-  const isSamsungBrowser = navigator.userAgent.includes("SamsungBrowser");
-
-  if (isSamsungBrowser) {
-    document.body.classList.add("samsung-browser");
-  }
-}, []);
-
-  const handleGuestChange = (index, field, value) => {
-    const updatedGuests = [...guests];
-    updatedGuests[index][field] = value;
-    setGuests(updatedGuests);
-  };
-
-  useEffect(() => {
   const ua = navigator.userAgent.toLowerCase();
 
   const isSamsungBrowser =
@@ -57,10 +43,30 @@ function App() {
     ua.includes("samsungbrowser") ||
     ua.includes("samsung browser");
 
-  if (isSamsungBrowser) {
-    document.body.classList.add("samsung-browser");
-  }
+  const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
+
+  const updateSamsungTheme = () => {
+    if (isSamsungBrowser && mediaQuery.matches) {
+      document.body.classList.add("samsung-browser");
+    } else {
+      document.body.classList.remove("samsung-browser");
+    }
+  };
+
+  updateSamsungTheme();
+
+  mediaQuery.addEventListener("change", updateSamsungTheme);
+
+  return () => {
+    mediaQuery.removeEventListener("change", updateSamsungTheme);
+  };
 }, []);
+
+  const handleGuestChange = (index, field, value) => {
+    const updatedGuests = [...guests];
+    updatedGuests[index][field] = value;
+    setGuests(updatedGuests);
+  };
 
   const addGuest = () => {
     setGuests([...guests, { name: "", isChild: false }]);

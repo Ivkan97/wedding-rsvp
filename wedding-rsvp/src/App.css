@@ -37,7 +37,7 @@ body,
 }
 
 body::after {
-  content: "v17";
+  content: "v18";
   position: fixed;
   top: 12px;
   right: 12px;

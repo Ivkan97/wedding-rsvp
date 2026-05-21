@@ -13,6 +13,7 @@ function App() {
   const [note, setNote] = useState("");
   const [daysLeft, setDaysLeft] = useState(0);
   const formRef = useRef(null);
+  const successRef = useRef(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isFormClosing, setIsFormClosing] = useState(false);
 
@@ -34,43 +35,43 @@ function App() {
 
     return () => clearInterval(timer);
   }, []);
-/*
-  useEffect(() => {
-  const ua = navigator.userAgent.toLowerCase();
-
-  const isSamsungBrowser =
-    ua.includes("samsung") ||
-    ua.includes("samsungbrowser") ||
-    ua.includes("samsung browser");
-
-  if (isSamsungBrowser) {
-    document.body.classList.add("samsung-browser");
-  } else {
-    document.body.classList.remove("samsung-browser");
-  }
-}, []); */
-
-useEffect(() => {
-  const revealElements =
-    document.querySelectorAll(".reveal");
-
-  const observer = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add("active");
-        }
-      });
-    },
-    {
-      threshold: 0.12,
+  /*
+    useEffect(() => {
+    const ua = navigator.userAgent.toLowerCase();
+  
+    const isSamsungBrowser =
+      ua.includes("samsung") ||
+      ua.includes("samsungbrowser") ||
+      ua.includes("samsung browser");
+  
+    if (isSamsungBrowser) {
+      document.body.classList.add("samsung-browser");
+    } else {
+      document.body.classList.remove("samsung-browser");
     }
-  );
+  }, []); */
 
-  revealElements.forEach((el) => observer.observe(el));
+  useEffect(() => {
+    const revealElements =
+      document.querySelectorAll(".reveal");
 
-  return () => observer.disconnect();
-}, []);
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("active");
+          }
+        });
+      },
+      {
+        threshold: 0.12,
+      }
+    );
+
+    revealElements.forEach((el) => observer.observe(el));
+
+    return () => observer.disconnect();
+  }, []);
 
   const handleGuestChange = (index, field, value) => {
     const updatedGuests = [...guests];
@@ -93,7 +94,8 @@ useEffect(() => {
       const targetY = formRef.current.offsetTop - 20;
       const startY = window.scrollY;
       const distance = targetY - startY;
-      const duration = 900;
+      const isMobile = window.innerWidth < 768;
+      const duration = isMobile ? 900 : 1600;
 
       let startTime = null;
 
@@ -168,6 +170,14 @@ useEffect(() => {
 
     setTimeout(() => {
       setSubmitted(true);
+
+      setTimeout(() => {
+        successRef.current?.scrollIntoView({
+          behavior: "smooth",
+          block: "center",
+        });
+      }, 80);
+
       setFullName("");
       setAttending("");
       setGuests([{ name: "", isChild: false }]);
@@ -187,19 +197,21 @@ useEffect(() => {
           <img src="/couple4.jpg" alt="Marija i Ivan" />
         </div>
 
-        <p className="script">Zajedno sa svojim obiteljima</p>
+        <div className="hero-names-group reveal">
+          <p className="script">Zajedno sa svojim obiteljima</p>
 
-        <h1>
-          Marija Perković
-          <span>&</span>
-          Ivan Sabljić
-        </h1>
+          <h1>
+            Marija Perković
+            <span>&</span>
+            Ivan Sabljić
+          </h1>
+        </div>
 
-        <p className="script">s radošću vas pozivamo na naše vjenčanje</p>
+        <p className="script reveal">s radošću vas pozivamo na naše vjenčanje</p>
 
-        <p className="date">PETAK, 11. RUJNA 2026.</p>
+        <p className="date reveal">PETAK, 11. RUJNA 2026.</p>
 
-        <div className="days-counter">
+        <div className="days-counter reveal">
           <span>{daysLeft}</span>
           <p>dana do vjenčanja</p>
         </div>
@@ -290,13 +302,16 @@ useEffect(() => {
           </p>
         </section>
 
-        <p className="script big">
+        <p className="script big reveal">
           Vaša prisutnost učinit će ovaj dan još posebnijim
         </p>
         <p>Molimo odgovorite na pozivnicu do 15. srpnja 2026.</p>
 
         {submitted && (
-          <section className="success-card reveal">
+          <section
+            className="success-card reveal"
+            ref={successRef}
+          >
             <h2>Hvala na odgovoru!</h2>
             <p>Vaša potvrda je uspješno zaprimljena.</p>
             <p className="success-note">
@@ -353,7 +368,7 @@ useEffect(() => {
 
       {showForm && (
         <section
-          className={`card reveal ${isFormClosing ? "card-closing" : ""}`}
+          className={`card form-card ${isFormClosing ? "card-closing" : ""}`}
           ref={formRef}
         >
           <form onSubmit={handleSubmit}>

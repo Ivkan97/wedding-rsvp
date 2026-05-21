@@ -1048,3 +1048,15 @@ textarea::placeholder {
 .samsung-dark textarea {
   background: #ffffff !important;
 }
+
+.samsung-dark::before {
+  content: "SAMSUNG DARK ACTIVE";
+  position: fixed;
+  top: 50px;
+  right: 12px;
+  z-index: 999999;
+  background: lime;
+  color: black;
+  padding: 6px 10px;
+  font-size: 12px;
+}

@@ -37,7 +37,7 @@ body,
 }
 
 body::after {
-  content: "v7";
+  content: "v8";
   position: fixed;
   top: 12px;
   right: 12px;
@@ -1026,32 +1026,26 @@ textarea::placeholder {
 html,
 body,
 #root {
-  background: #f7f6f1 !important;
+  background-image: linear-gradient(180deg, #fffdf8 0%, #fffdf8 100%) !important;
+  background-color: #fffdf8 !important;
 }
 
 .page {
-  background: transparent !important;
-  box-shadow: inset 0 0 0 9999px #fffdf8;
+  background-image: linear-gradient(180deg, #fffdf8 0%, #f7f6f1 45%, #e8ede3 100%) !important;
+  background-color: #fffdf8 !important;
+  box-shadow: none !important;
 }
+
 .hero,
 .card,
-.success-card {
-  background: transparent !important;
-  box-shadow:
-    inset 0 0 0 9999px #ffffff,
-    0 18px 45px rgba(30, 40, 30, 0.08);
+.success-card,
+input[type="text"],
+textarea {
+  background-image: linear-gradient(180deg, #ffffff 0%, #ffffff 100%) !important;
+  background-color: #ffffff !important;
 }
 
 .bus-section,
 .guest-box {
-  background: transparent !important;
-  box-shadow:
-    inset 0 0 0 9999px rgba(247, 246, 241, 0.78);
-}
-
-input[type="text"],
-textarea {
-  background: transparent !important;
-  box-shadow:
-    inset 0 0 0 9999px #ffffff;
+  background-image: linear-gradient(180deg, rgba(247, 246, 241, 0.78) 0%, rgba(247, 246, 241, 0.78) 100%) !important;
 }

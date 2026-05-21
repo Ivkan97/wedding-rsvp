@@ -1023,25 +1023,27 @@ textarea::placeholder {
   }
 }
 
-.samsung-browser .page {
+.samsung-dark .page {
   background-image: url("/white-bg.png") !important;
   background-size: cover !important;
   background-position: center top !important;
   background-repeat: repeat-y !important;
 }
 
-.samsung-browser .hero,
-.samsung-browser .card,
-.samsung-browser .success-card,
-.samsung-browser .bus-section,
-.samsung-browser .guest-box {
-  background-image: url("/white-bg.png") !important;
+.samsung-dark .hero,
+.samsung-dark .card,
+.samsung-dark .success-card,
+.samsung-dark .bus-section,
+.samsung-dark .guest-box {
+  background-image: url("/palette.png") !important;
   background-size: cover !important;
   background-position: center !important;
   background-repeat: repeat !important;
+
+  border: 1px solid rgba(47, 58, 45, 0.14) !important;
 }
 
-.samsung-browser .photo-hero::after {
+.samsung-dark .photo-hero::after {
   background: linear-gradient(
     to bottom,
     rgba(255, 255, 255, 0) 42%,
@@ -1049,7 +1051,7 @@ textarea::placeholder {
   ) !important;
 }
 
-.samsung-browser input[type="text"],
-.samsung-browser textarea {
+.samsung-dark input[type="text"],
+.samsung-dark textarea {
   background: #ffffff !important;
 }

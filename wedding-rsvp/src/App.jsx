@@ -38,8 +38,11 @@ function App() {
   useEffect(() => {
     const isSamsungBrowser = navigator.userAgent.includes("SamsungBrowser");
 
-    if (isSamsungBrowser) {
-      document.body.classList.add("samsung-browser");
+    const isDarkMode =
+      window.matchMedia("(prefers-color-scheme: dark)").matches;
+
+    if (isSamsungBrowser && isDarkMode) {
+      document.body.classList.add("samsung-dark");
     }
   }, []);
 

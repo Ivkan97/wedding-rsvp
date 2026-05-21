@@ -37,7 +37,7 @@ body,
 }
 
 body::after {
-  content: "v13";
+  content: "v14";
   position: fixed;
   top: 12px;
   right: 12px;
@@ -1023,3 +1023,22 @@ textarea::placeholder {
   }
 }
 
+.samsung-browser .page {
+  background: #eef1ea !important;
+}
+
+.samsung-browser .hero,
+.samsung-browser .card,
+.samsung-browser .success-card {
+  background: #f7f6f1 !important;
+}
+
+.samsung-browser .bus-section,
+.samsung-browser .guest-box {
+  background: rgba(95, 107, 92, 0.08) !important;
+}
+
+.samsung-browser input[type="text"],
+.samsung-browser textarea {
+  background: #f7f6f1 !important;
+}

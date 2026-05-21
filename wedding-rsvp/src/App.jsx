@@ -35,6 +35,14 @@ function App() {
     return () => clearInterval(timer);
   }, []);
 
+  useEffect(() => {
+    const isSamsungBrowser = navigator.userAgent.includes("SamsungBrowser");
+
+    if (isSamsungBrowser) {
+      document.body.classList.add("samsung-browser");
+    }
+  }, []);
+
   const handleGuestChange = (index, field, value) => {
     const updatedGuests = [...guests];
     updatedGuests[index][field] = value;

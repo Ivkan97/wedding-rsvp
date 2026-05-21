@@ -1024,20 +1024,16 @@ textarea::placeholder {
 }
 
 /* ==========================================================================
-   KONAČNI POPRAVAK ZA TABLETE (Inspiriran funkcionalnim primjerom)
+   ZADNJA OPCIJA: HARDVERSKO BLOKIRANJE INVERZIJE EKRENA
    ========================================================================== */
 
-/* 1. Potpuno resetiramo bazu i uništavamo bilo kakav transparentni sloj */
-html, 
-body, 
-#root, 
-.page {
+/* 1. Prvo zaključavamo standardni CSS */
+html, body, #root, .page {
   background-color: #fffdf8 !important;
-  background-image: none !important; /* Mičemo gradijente koji zbunjuju tablet */
+  background-image: none !important;
   color: #2f3a2d !important;
 }
 
-/* 2. Umjesto CSS gradijenta, pozadinska slika ide direktno na body s čvrstom podlogom */
 body::before {
   content: "";
   position: fixed;
@@ -1051,62 +1047,30 @@ body::before {
   background-color: #fffdf8 !important; 
 }
 
-/* 3. "Zaključavamo" sve tekstualne elemente i kontejnere da ne mogu promijeniti boju */
 h1, h2, h3, p, span, label, div, a, .script, .date, .days-counter p, .days-counter span {
   color: #2f3a2d !important;
 }
 
-/* Mali izuzetak za pomoćni tekst koji je u originalu malo svjetliji */
-.input-helper, .small-note, .success-note, input::placeholder, textarea::placeholder {
-  color: #6d786a !important;
-}
-
-/* 4. Čvrsto definiranje kartica i formi - bez sjena koje u dark modu postaju bijeli sjaj */
-.hero, 
-.card, 
-.success-card {
+.hero, .card, .success-card, input[type="text"], textarea {
   background-color: #ffffff !important;
   background-image: none !important;
   border: 1px solid rgba(47, 58, 45, 0.25) !important;
 }
 
-/* 5. Unosi u formu (Inputi i Textarea) */
-input[type="text"], 
-textarea {
-  background-color: #ffffff !important;
-  background-image: none !important;
-  color: #2f3a2d !important;
-  border: 1px solid rgba(47, 58, 45, 0.25) !important;
+/* 2. UKROTITELJ GRAFIČKE INVERZIJE (Ovo koristi i primjer koji radi) */
+@media (forced-colors: active) {
+  html, body, .page, .card, .hero {
+    forced-color-adjust: none !important;
+    background-color: #fffdf8 !important;
+    color: #2f3a2d !important;
+  }
 }
 
-/* Popravak za radio i checkbox krugove/kvadrate */
-.radio-row input, 
-.checkbox-row input {
-  background-color: #ffffff !important;
-  border: 1.5px solid #5f6b5c !important;
+/* 3. Ako je u pitanju agresivni Xiaomi/Samsung Force Dark preglednika, 
+   ovaj trik s miješanjem slojeva (mix-blend-mode) poništava crni overlay */
+html {
+  isolation: isolate;
 }
-
-.radio-row input::before, 
-.checkbox-row input::before {
-  background: #5f6b5c !important;
-}
-
-/* Sekcije koje su imale prozirnu maslinastu pozadinu dobivaju čvrstu svjetliju boju */
-.bus-section, 
-.guest-box, 
-.bus-box, 
-.days-counter {
-  background-color: #f2f4f0 !important; /* Čvrsta sivo-zelena boja umjesto rgba prozirnosti */
-  background-image: none !important;
-}
-
-/* Gumbi */
-.primary-button {
-  background-color: #2f3a2d !important;
-  color: #ffffff !important;
-}
-
-.secondary-button {
-  background-color: #e2e6e0 !important;
-  color: #2f3a2d !important;
+body {
+  mix-blend-mode: normal !important;
 }

@@ -41,7 +41,7 @@ function App() {
     const isDarkMode =
       window.matchMedia("(prefers-color-scheme: dark)").matches;
 
-    if (isSamsungBrowser && isDarkMode) {
+    if (isSamsungBrowser) {
       document.body.classList.add("samsung-dark");
     }
   }, []);

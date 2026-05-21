@@ -1045,7 +1045,7 @@ textarea::placeholder {
 
 .samsung-browser .page {
  /* Slika iza kartice */
-  background-image: url("/samsung-card.jpg") !important; 
+  background-image: url("/ivory.jpg") !important; 
   background-size: cover !important;
   background-position: center top !important;
   background-repeat: repeat-y !important;
@@ -1057,7 +1057,7 @@ textarea::placeholder {
 .samsung-browser .bus-section,
 .samsung-browser .guest-box {
   /* Slika same kartice */
-  background-image: url("/green.jpg") !important;
+  background-image: url("/green1.jpg") !important;
 
   background-size: cover !important;
   background-position: center !important;

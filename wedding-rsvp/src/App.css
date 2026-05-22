@@ -1379,15 +1379,11 @@ textarea::placeholder {
 .envelope-front-layer.opening .envelope-card,
 .envelope-back-layer.opening .envelope-card {
   animation:
-    envelopeRevealDrop 7s cubic-bezier(0.22, 1, 0.36, 1) 0.75s forwards;
+    envelopeRevealDrop 3.4s cubic-bezier(0.22, 1, 0.36, 1) 0.75s forwards;
 }
 
 @keyframes envelopeRevealDrop {
   0% {
-    transform: translateY(0);
-  }
-
-  22% {
     transform: translateY(0);
   }
 
@@ -1601,18 +1597,14 @@ body.intro-active .envelope-mask {
   }
 
   .envelope-front-layer.opening .envelope-card,
-  .envelope-back-layer.opening .envelope-card {
-    animation:
-      envelopeRevealDropMobilePageLayer 7s cubic-bezier(0.22, 1, 0.36, 1) 0.75s forwards !important;
-  }
+.envelope-back-layer.opening .envelope-card {
+  animation:
+    envelopeRevealDropMobilePageLayer 3.4s cubic-bezier(0.22, 1, 0.36, 1) 0.75s forwards !important;
+}
 }
 
 @keyframes envelopeRevealDropMobilePageLayer {
   0% {
-    transform: translateY(0);
-  }
-
-  22% {
     transform: translateY(0);
   }
 

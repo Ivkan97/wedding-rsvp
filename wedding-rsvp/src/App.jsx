@@ -321,10 +321,12 @@ function App() {
   return (
   <>
     {!assetsLoaded && (
-      <div className={`loading-screen ${loadingLeaving ? "leaving" : ""}`}>
-        <img src="/wax.png" alt="" className="loading-seal" />
-      </div>
-    )}
+  <div className={`loading-screen ${loadingLeaving ? "leaving" : ""}`}>
+    <div className="loading-envelope-card">
+      <img src="/wax.png" alt="" className="loading-seal" />
+    </div>
+  </div>
+)}
 
     <main
       className={`page ${!invitationOpened || envelopeOpening ? "envelope-active" : ""} ${envelopeOpening ? "invitation-opening" : ""}`}

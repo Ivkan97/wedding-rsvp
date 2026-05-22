@@ -178,7 +178,7 @@ function App() {
 
   setTimeout(() => {
     setAssetsLoaded(true);
-  }, 700);
+  }, 1100);
 }, remainingTime);
   };
 

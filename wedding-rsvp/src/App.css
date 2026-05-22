@@ -1647,8 +1647,8 @@ body.intro-active .envelope-mask {
   opacity: 1;
 
   transition:
-    opacity 0.7s ease,
-    transform 0.7s ease;
+  opacity 1.1s ease,
+  transform 1.1s ease;
 
   pointer-events: auto;
 }
@@ -1694,8 +1694,8 @@ body.intro-active .envelope-mask {
   transform: translate(-50%, -50%) scale(0.94);
 
   transition:
-    opacity 0.7s ease,
-    transform 0.7s ease;
+  opacity 1.1s ease,
+  transform 1.1s ease;
 }
 
 @keyframes loadingSealPulse {
@@ -1726,5 +1726,21 @@ body.intro-active .envelope-mask {
     width: 92px;
     height: 92px;
     top: 56%;
+  }
+}
+
+.page {
+  animation: pageSoftReveal 0.9s ease both;
+}
+
+@keyframes pageSoftReveal {
+  from {
+    opacity: 0.96;
+    filter: blur(2px);
+  }
+
+  to {
+    opacity: 1;
+    filter: blur(0);
   }
 }

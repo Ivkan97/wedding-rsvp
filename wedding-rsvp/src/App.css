@@ -1711,19 +1711,6 @@ body.intro-active .envelope-mask {
   }
 }
 
-@keyframes loadingSealPulse {
-  0%,
-  100% {
-    opacity: 0.72;
-    transform: scale(0.96);
-  }
-
-  50% {
-    opacity: 1;
-    transform: scale(1);
-  }
-}
-
 @media (max-width: 767px) {
   .loading-screen {
     padding: 250px 4px 24px;

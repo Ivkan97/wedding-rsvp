@@ -1263,11 +1263,11 @@ textarea::placeholder {
 }
 
 .envelope-back-layer.opening .envelope-flap-open {
-  animation: showOpenFlap 1.4s ease forwards;
+  animation: showOpenFlap 2s ease forwards;
 }
 
 .envelope-front-layer.opening .envelope-flap-closed {
-  animation: hideClosedFlap 1.4s ease forwards;
+  animation: hideClosedFlap 2s ease forwards;
 }
 
 @keyframes hideClosedFlap {
@@ -1370,7 +1370,7 @@ textarea::placeholder {
 .envelope-front-layer.opening .envelope-card,
 .envelope-back-layer.opening .envelope-card {
   animation:
-    envelopeRevealDrop 4.2s cubic-bezier(0.45, 0, 0.15, 1) 0.75s forwards;
+    envelopeRevealDrop 4.2s cubic-bezier(0.45, 0, 0.15, 1) 1.05s forwards;
 }
 
 @keyframes envelopeRevealDrop {
@@ -1398,8 +1398,7 @@ textarea::placeholder {
 
 .page.envelope-active.invitation-opening .hero {
   transform: translateY(0);
-
-  transition-delay: 0.75s;
+  transition-delay: 1.05s;
 }
 
 @media (max-width: 767px) {
@@ -1581,10 +1580,10 @@ body.intro-active .envelope-mask {
   }
 
   .envelope-front-layer.opening .envelope-card,
-  .envelope-back-layer.opening .envelope-card {
-    animation:
-      envelopeRevealDropMobilePageLayer 4.2s cubic-bezier(0.45, 0, 0.15, 1) 0.75s forwards !important;
-  }
+.envelope-back-layer.opening .envelope-card {
+  animation:
+    envelopeRevealDropMobilePageLayer 4.2s cubic-bezier(0.45, 0, 0.15, 1) 1.05s forwards !important;
+}
 }
 
 @keyframes envelopeRevealDropMobilePageLayer {

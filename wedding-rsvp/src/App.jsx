@@ -57,26 +57,28 @@ function App() {
   }, []); */
 
   useEffect(() => {
-    const revealElements =
-      document.querySelectorAll(".reveal");
+  if (!assetsLoaded) return;
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add("active");
-          }
-        });
-      },
-      {
-        threshold: 0.12,
-      }
-    );
+  const revealElements =
+    document.querySelectorAll(".reveal");
 
-    revealElements.forEach((el) => observer.observe(el));
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("active");
+        }
+      });
+    },
+    {
+      threshold: 0.12,
+    }
+  );
 
-    return () => observer.disconnect();
-  }, []);
+  revealElements.forEach((el) => observer.observe(el));
+
+  return () => observer.disconnect();
+}, [assetsLoaded]);
 
   useEffect(() => {
     window.history.scrollRestoration = "manual";

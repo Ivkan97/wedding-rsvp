@@ -20,7 +20,7 @@ function App() {
   const [invitationOpened, setInvitationOpened] = useState(false);
   const [envelopeOpening, setEnvelopeOpening] = useState(false);
   const [assetsLoaded, setAssetsLoaded] = useState(false);
-  console.log("assetsLoaded:", assetsLoaded);
+  const [loadingLeaving, setLoadingLeaving] = useState(false);
 
   useEffect(() => {
     const weddingDate = new Date("2026-09-11T00:00:00");
@@ -174,8 +174,12 @@ function App() {
     const remainingTime = Math.max(minimumLoadingTime - elapsed, 0);
 
     setTimeout(() => {
-      setAssetsLoaded(true);
-    }, remainingTime);
+  setLoadingLeaving(true);
+
+  setTimeout(() => {
+    setAssetsLoaded(true);
+  }, 700);
+}, remainingTime);
   };
 
   loadAssets();
@@ -313,14 +317,15 @@ function App() {
       setIsFormClosing(false);
     }, 450);
   };
-  if (!assetsLoaded) {
-    return (
-      <div className="loading-screen">
+  
+  return (
+  <>
+    {!assetsLoaded && (
+      <div className={`loading-screen ${loadingLeaving ? "leaving" : ""}`}>
         <img src="/wax.png" alt="" className="loading-seal" />
       </div>
-    );
-  }
-  return (
+    )}
+
     <main
       className={`page ${!invitationOpened || envelopeOpening ? "envelope-active" : ""} ${envelopeOpening ? "invitation-opening" : ""}`}
     >
@@ -702,6 +707,7 @@ function App() {
         </section>
       )}
     </main>
+    </>
   );
 }
 

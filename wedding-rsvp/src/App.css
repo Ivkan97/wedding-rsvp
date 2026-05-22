@@ -1379,7 +1379,7 @@ textarea::placeholder {
 .envelope-front-layer.opening .envelope-card,
 .envelope-back-layer.opening .envelope-card {
   animation:
-    envelopeRevealDrop 7s cubic-bezier(0.22, 1, 0.36, 1) 1.4s forwards;
+    envelopeRevealDrop 7s cubic-bezier(0.22, 1, 0.36, 1) 0.75s forwards;
 }
 
 @keyframes envelopeRevealDrop {
@@ -1412,7 +1412,7 @@ textarea::placeholder {
 .page.envelope-active.invitation-opening .hero {
   transform: translateY(0);
 
-  transition-delay: 1.25s;
+  transition-delay: 0.75s;
 }
 
 @media (max-width: 767px) {
@@ -1603,7 +1603,7 @@ body.intro-active .envelope-mask {
   .envelope-front-layer.opening .envelope-card,
   .envelope-back-layer.opening .envelope-card {
     animation:
-      envelopeRevealDropMobilePageLayer 7s cubic-bezier(0.22, 1, 0.36, 1) 1.4s forwards !important;
+      envelopeRevealDropMobilePageLayer 7s cubic-bezier(0.22, 1, 0.36, 1) 0.75s forwards !important;
   }
 }
 

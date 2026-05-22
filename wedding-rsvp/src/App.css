@@ -1630,3 +1630,48 @@ body.intro-active .envelope-mask {
     display: none !important;
   }
 }
+
+.loading-screen {
+  position: fixed;
+  inset: 0;
+  z-index: 999999;
+
+  min-height: 100vh;
+  width: 100%;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+
+  background: #ffffff;
+  color: #2f3a2d;
+
+  font-family: "Cormorant Garamond", serif;
+}
+
+.loading-seal {
+  width: 96px;
+  height: 96px;
+  object-fit: contain;
+
+  filter:
+    drop-shadow(0 2px 2px rgba(20, 28, 20, 0.16))
+    drop-shadow(0 10px 16px rgba(20, 28, 20, 0.14));
+
+  animation: loadingSealPulse 1.8s ease-in-out infinite;
+}
+
+@keyframes loadingSealPulse {
+  0%,
+  100% {
+    opacity: 0.72;
+    transform: scale(0.96);
+  }
+
+  50% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}

@@ -19,6 +19,8 @@ function App() {
   const [showGuestError, setShowGuestError] = useState("");
   const [invitationOpened, setInvitationOpened] = useState(false);
   const [envelopeOpening, setEnvelopeOpening] = useState(false);
+  const [assetsLoaded, setAssetsLoaded] = useState(false);
+  console.log("assetsLoaded:", assetsLoaded);
 
   useEffect(() => {
     const weddingDate = new Date("2026-09-11T00:00:00");
@@ -82,23 +84,23 @@ function App() {
   }, []);
 
   useEffect(() => {
-  const setRealViewportHeight = () => {
-    document.documentElement.style.setProperty(
-      "--real-vh",
-      `${window.innerHeight}px`
-    );
-  };
+    const setRealViewportHeight = () => {
+      document.documentElement.style.setProperty(
+        "--real-vh",
+        `${window.innerHeight}px`
+      );
+    };
 
-  setRealViewportHeight();
+    setRealViewportHeight();
 
-  window.addEventListener("resize", setRealViewportHeight);
-  window.addEventListener("orientationchange", setRealViewportHeight);
+    window.addEventListener("resize", setRealViewportHeight);
+    window.addEventListener("orientationchange", setRealViewportHeight);
 
-  return () => {
-    window.removeEventListener("resize", setRealViewportHeight);
-    window.removeEventListener("orientationchange", setRealViewportHeight);
-  };
-}, []);
+    return () => {
+      window.removeEventListener("resize", setRealViewportHeight);
+      window.removeEventListener("orientationchange", setRealViewportHeight);
+    };
+  }, []);
 
   useEffect(() => {
     if (!invitationOpened || envelopeOpening) {
@@ -127,6 +129,55 @@ function App() {
       };
     }
   }, [invitationOpened]);
+
+  useEffect(() => {
+  const assetsToLoad = [
+    "/couple4.jpg",
+    "/Desktopkarta.png",
+    "/Olive-paper.png",
+    "/wax.png",
+  ];
+
+  const minimumLoadingTime = 1500;
+  const startTime = Date.now();
+
+  const loadImage = (src) => {
+    return new Promise((resolve) => {
+      const img = new Image();
+
+      img.onload = async () => {
+        try {
+          if (img.decode) {
+            await img.decode();
+          }
+        } catch {
+          // Ako decode ne uspije, svejedno nastavljamo.
+        }
+
+        resolve();
+      };
+
+      img.onerror = resolve;
+      img.src = src;
+    });
+  };
+
+  const loadAssets = async () => {
+    await Promise.all([
+      ...assetsToLoad.map(loadImage),
+      document.fonts ? document.fonts.ready : Promise.resolve(),
+    ]);
+
+    const elapsed = Date.now() - startTime;
+    const remainingTime = Math.max(minimumLoadingTime - elapsed, 0);
+
+    setTimeout(() => {
+      setAssetsLoaded(true);
+    }, remainingTime);
+  };
+
+  loadAssets();
+}, []);
 
   const handleGuestChange = (index, field, value) => {
     const updatedGuests = [...guests];
@@ -260,7 +311,13 @@ function App() {
       setIsFormClosing(false);
     }, 450);
   };
-
+  if (!assetsLoaded) {
+    return (
+      <div className="loading-screen">
+        <img src="/wax.png" alt="" className="loading-seal" />
+      </div>
+    );
+  }
   return (
     <main
       className={`page ${!invitationOpened || envelopeOpening ? "envelope-active" : ""} ${envelopeOpening ? "invitation-opening" : ""}`}

@@ -1726,35 +1726,6 @@ body.intro-active .envelope-mask {
 
 @media (max-width: 767px) {
   .loading-screen {
-    justify-content: flex-start;
-    position: fixed;
-  }
-
-  .loading-seal {
-    position: absolute;
-
-    left: 50%;
-
-    /*
-      250px = mobile padding-top kuverte
-      min(98vw, 420px) / 1.55 = visina envelope-carda
-      56% = pozicija wax pečata unutar kuverte
-    */
-    top: calc(250px + ((min(98vw, 420px) / 1.55) * 0.56));
-
-    width: 92px;
-    height: 92px;
-
-    transform: translate(-50%, -50%);
-  }
-
-  .loading-screen.leaving .loading-seal {
-    transform: translate(-50%, -50%) scale(0.94);
-  }
-}
-
-@media (max-width: 767px) {
-  .loading-screen {
     padding: 250px 4px 24px;
   }
 

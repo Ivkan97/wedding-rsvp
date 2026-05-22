@@ -16,6 +16,9 @@ function App() {
   const successRef = useRef(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isFormClosing, setIsFormClosing] = useState(false);
+  const [showGuestError, setShowGuestError] = useState("");
+  const [invitationOpened, setInvitationOpened] = useState(false);
+  const [envelopeOpening, setEnvelopeOpening] = useState(false);
 
   useEffect(() => {
     const weddingDate = new Date("2026-09-11T00:00:00");
@@ -73,6 +76,58 @@ function App() {
     return () => observer.disconnect();
   }, []);
 
+  useEffect(() => {
+    window.history.scrollRestoration = "manual";
+    window.scrollTo(0, 0);
+  }, []);
+
+  useEffect(() => {
+  const setRealViewportHeight = () => {
+    document.documentElement.style.setProperty(
+      "--real-vh",
+      `${window.innerHeight}px`
+    );
+  };
+
+  setRealViewportHeight();
+
+  window.addEventListener("resize", setRealViewportHeight);
+  window.addEventListener("orientationchange", setRealViewportHeight);
+
+  return () => {
+    window.removeEventListener("resize", setRealViewportHeight);
+    window.removeEventListener("orientationchange", setRealViewportHeight);
+  };
+}, []);
+
+  useEffect(() => {
+    if (!invitationOpened || envelopeOpening) {
+      document.body.classList.add("intro-active");
+    } else {
+      document.body.classList.remove("intro-active");
+    }
+
+    return () => {
+      document.body.classList.remove("intro-active");
+    };
+  }, [invitationOpened, envelopeOpening]);
+
+  useEffect(() => {
+    if (!invitationOpened) {
+      const preventScroll = (e) => {
+        e.preventDefault();
+      };
+
+      window.addEventListener("wheel", preventScroll, { passive: false });
+      window.addEventListener("touchmove", preventScroll, { passive: false });
+
+      return () => {
+        window.removeEventListener("wheel", preventScroll);
+        window.removeEventListener("touchmove", preventScroll);
+      };
+    }
+  }, [invitationOpened]);
+
   const handleGuestChange = (index, field, value) => {
     const updatedGuests = [...guests];
     updatedGuests[index][field] = value;
@@ -125,6 +180,23 @@ function App() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (
+      attending === "da" &&
+      guests.some((guest) => !guest.name.trim())
+    ) {
+      setShowGuestError("Molimo unesite ime i prezime za sve osobe.");
+      return;
+    }
+
+    if (
+      attending === "ne" &&
+      !fullName.trim()
+    ) {
+      setShowGuestError("Molimo unesite ime i prezime.");
+      return;
+    }
+
+    setShowGuestError("");
     if (isSubmitting) return;
     setIsSubmitting(true);
 
@@ -190,7 +262,43 @@ function App() {
   };
 
   return (
-    <main className="page">
+    <main
+      className={`page ${!invitationOpened || envelopeOpening ? "envelope-active" : ""} ${envelopeOpening ? "invitation-opening" : ""}`}
+    >
+      {!invitationOpened && (
+        <>
+          <div className={`envelope-back-layer ${envelopeOpening ? "opening" : ""}`}>
+            <div className="envelope-card">
+              <div className="envelope-open-v-fill"></div>
+              <div className="envelope-flap-open"></div>
+            </div>
+          </div>
+
+          <div className={`envelope-front-layer ${envelopeOpening ? "opening" : ""}`}>
+            <div className="envelope-card">
+              <div className="envelope-mask"></div>
+              <div className="envelope-body"></div>
+              <div className="envelope-flap-closed"></div>
+
+              <button
+                type="button"
+                className="wax-seal"
+                onClick={() => {
+                  setEnvelopeOpening(true);
+
+                  setTimeout(() => {
+                    setInvitationOpened(true);
+                  }, 4200);
+                }}
+                aria-label="Otvori pozivnicu"
+              ></button>
+
+              <p>Dodirnite pečat za otvaranje pozivnice</p>
+            </div>
+          </div>
+        </>
+      )}
+
       <section className="hero">
 
         <div className="photo-hero">
@@ -371,7 +479,7 @@ function App() {
           className={`card form-card ${isFormClosing ? "card-closing" : ""}`}
           ref={formRef}
         >
-          <form onSubmit={handleSubmit}>
+          <form onSubmit={handleSubmit} noValidate>
             <div className="form-group">
               <p className="question">
                 Hoćete li prisustvovati našem vjenčanju?
@@ -385,9 +493,9 @@ function App() {
                   checked={attending === "da"}
                   onChange={(e) => {
                     setAttending(e.target.value);
+                    setShowGuestError("");
                     smoothScrollToForm();
                   }}
-                  required
                 />
                 Da, dolazimo
               </label>
@@ -400,6 +508,7 @@ function App() {
                   checked={attending === "ne"}
                   onChange={(e) => {
                     setAttending(e.target.value);
+                    setShowGuestError("");
                     smoothScrollToForm();
                   }}
                 />
@@ -416,8 +525,13 @@ function App() {
                     value={fullName}
                     onChange={(e) => setFullName(e.target.value)}
                     placeholder="npr. Ivan Horvat"
-                    required
                   />
+
+                  {showGuestError && (
+                    <p className="form-error">
+                      {showGuestError}
+                    </p>
+                  )}
                 </div>
               </div>
             )}
@@ -436,7 +550,6 @@ function App() {
                         onChange={(e) =>
                           handleGuestChange(index, "name", e.target.value)
                         }
-                        required
                       />
 
                       {index > 0 && (
@@ -467,6 +580,12 @@ function App() {
                       )}
                     </div>
                   ))}
+
+                  {showGuestError && (
+                    <p className="form-error">
+                      {showGuestError}
+                    </p>
+                  )}
 
                   <button
                     type="button"

@@ -312,14 +312,16 @@ function App() {
     const formData = {
       ime_prezime: attending === "da" ? guests[0]?.name || "" : fullName,
       dolazak: attending,
+
       gosti:
         attending === "da"
-          ? guests.map((guest) => ({
-            fullName: guest.name,
-            isChild: guest.isChild,
-          }))
+          ? guests.map((guest) =>
+            guest.isChild
+              ? `${guest.name} (dijete <12)`
+              : guest.name
+          )
           : [],
-      zainteresirani_za_bus: attending === "da" ? busConfirmed : false,
+
       potvrda_busa: attending === "da" ? busConfirmed : false,
       napomena: attending === "da" ? note : "",
     };

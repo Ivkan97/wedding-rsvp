@@ -762,16 +762,16 @@ function App() {
           </section>
         )}
 
-        {showScrollHint && (
-          <button
-            type="button"
-            className="mobile-scroll-hint"
-            onClick={handleScrollHintClick}
-            aria-label="Prikaži tekst pozivnice"
-          >
-            <span>⌄</span>
-          </button>
-        )}
+        {true && (
+  <button
+    type="button"
+    className="mobile-scroll-hint"
+    onClick={handleScrollHintClick}
+    aria-label="Prikaži tekst pozivnice"
+  >
+    <span>⌄</span>
+  </button>
+)}
       </main>
     </>
   );

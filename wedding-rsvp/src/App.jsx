@@ -422,6 +422,17 @@ function App() {
 
           <div className="photo-hero">
             <img src="/couple4.jpg" alt="Marija i Ivan" />
+
+            {showScrollHint && (
+              <button
+                type="button"
+                className="mobile-scroll-hint"
+                onClick={handleScrollHintClick}
+                aria-label="Prikaži tekst pozivnice"
+              >
+                <span>⌄</span>
+              </button>
+            )}
           </div>
 
           <div className="hero-names-group reveal" ref={introTextRef}>
@@ -761,17 +772,6 @@ function App() {
             </form>
           </section>
         )}
-
-        {true && (
-  <button
-    type="button"
-    className="mobile-scroll-hint"
-    onClick={handleScrollHintClick}
-    aria-label="Prikaži tekst pozivnice"
-  >
-    <span>⌄</span>
-  </button>
-)}
       </main>
     </>
   );

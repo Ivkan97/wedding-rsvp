@@ -746,12 +746,18 @@ function App() {
                     <label className="form-label-title">
                       Dodatne informacije
                     </label>
+
                     <textarea
                       value={note}
                       onChange={(e) => setNote(e.target.value)}
                       placeholder="Npr. alergije, posebna prehrana ili druge važne napomene..."
                       rows="4"
+                      maxLength={300}
                     />
+
+                    <p className="character-count">
+                      {note.length}/300
+                    </p>
                   </div>
                 </div>
               )}

@@ -315,12 +315,15 @@ function App() {
 
       gosti:
         attending === "da"
-          ? guests.map((guest) =>
-            guest.isChild
-              ? `${guest.name} (dijete <12)`
-              : guest.name
-          )
-          : [],
+          ? guests
+            .map((guest) =>
+              guest.isChild
+                ? `${guest.name.trim()} (dijete <12)`
+                : guest.name.trim()
+            )
+            .filter(Boolean)
+            .join(", ")
+          : "",
 
       potvrda_busa: attending === "da" ? busConfirmed : false,
       napomena: attending === "da" ? note : "",

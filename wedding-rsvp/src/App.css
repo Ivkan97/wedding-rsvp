@@ -1580,10 +1580,10 @@ body.intro-active .envelope-mask {
   }
 
   .envelope-front-layer.opening .envelope-card,
-.envelope-back-layer.opening .envelope-card {
-  animation:
-    envelopeRevealDropMobilePageLayer 4.2s cubic-bezier(0.45, 0, 0.15, 1) 1.05s forwards !important;
-}
+  .envelope-back-layer.opening .envelope-card {
+    animation:
+      envelopeRevealDropMobilePageLayer 4.2s cubic-bezier(0.45, 0, 0.15, 1) 1.05s forwards !important;
+  }
 }
 
 @keyframes envelopeRevealDropMobilePageLayer {
@@ -1759,7 +1759,11 @@ body.intro-active .envelope-mask {
 
     -webkit-tap-highlight-color: transparent;
 
-    animation: photoScrollHintFloat 1.65s ease-in-out infinite;
+    opacity: 0;
+
+    animation:
+      scrollHintSoftAppear 0.65s ease forwards,
+      photoScrollHintFloat 1.65s ease-in-out 0.65s infinite;
   }
 
   .photo-hero .mobile-scroll-hint span {
@@ -1774,6 +1778,7 @@ body.intro-active .envelope-mask {
 }
 
 @keyframes photoScrollHintFloat {
+
   0%,
   100% {
     transform: translateX(-50%) translateY(0);
@@ -1781,5 +1786,17 @@ body.intro-active .envelope-mask {
 
   50% {
     transform: translateX(-50%) translateY(7px);
+  }
+}
+
+@keyframes scrollHintSoftAppear {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(10px) scale(0.94);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0) scale(1);
   }
 }

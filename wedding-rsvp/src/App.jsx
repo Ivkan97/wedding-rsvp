@@ -199,7 +199,7 @@ function App() {
 
   const showTimer = setTimeout(() => {
     setShowScrollHint(true);
-  }, 900);
+  }, 250);
 
   const hideScrollHint = () => {
     setShowScrollHint(false);

@@ -1719,3 +1719,79 @@ body.intro-active .envelope-mask {
     filter: blur(0);
   }
 }
+
+.mobile-scroll-hint {
+  display: none;
+}
+
+@media (max-width: 767px) {
+  .mobile-scroll-hint {
+    position: fixed;
+
+    left: 50%;
+    bottom: 18px;
+
+    z-index: 12000;
+
+    width: 52px;
+    height: 52px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border: 1px solid rgba(47, 58, 45, 0.18);
+    border-radius: 999px;
+
+    background: rgba(255, 255, 255, 0.88);
+    color: #2f3a2d;
+
+    box-shadow:
+      0 10px 26px rgba(20, 28, 20, 0.14),
+      0 2px 8px rgba(20, 28, 20, 0.08);
+
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+
+    cursor: pointer;
+
+    -webkit-tap-highlight-color: transparent;
+
+    animation:
+      scrollHintAppear 0.45s ease both,
+      scrollHintFloat 1.65s ease-in-out infinite;
+  }
+
+  .mobile-scroll-hint span {
+    display: block;
+
+    font-family: "Josefin Sans", sans-serif;
+    font-size: 34px;
+    line-height: 1;
+
+    transform: translateY(-3px);
+  }
+}
+
+@keyframes scrollHintAppear {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+}
+
+@keyframes scrollHintFloat {
+  0%,
+  100% {
+    transform: translateX(-50%) translateY(0);
+  }
+
+  50% {
+    transform: translateX(-50%) translateY(7px);
+  }
+}

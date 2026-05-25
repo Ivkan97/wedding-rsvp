@@ -21,6 +21,10 @@ function App() {
   const [envelopeOpening, setEnvelopeOpening] = useState(false);
   const [assetsLoaded, setAssetsLoaded] = useState(false);
   const [loadingLeaving, setLoadingLeaving] = useState(false);
+  /* Strelica za dole */
+  const [showScrollHint, setShowScrollHint] = useState(false);
+  const introTextRef = useRef(null);
+  /* Strelica za dole */
 
   useEffect(() => {
     const weddingDate = new Date("2026-09-11T00:00:00");
@@ -57,28 +61,28 @@ function App() {
   }, []); */
 
   useEffect(() => {
-  if (!assetsLoaded) return;
+    if (!assetsLoaded) return;
 
-  const revealElements =
-    document.querySelectorAll(".reveal");
+    const revealElements =
+      document.querySelectorAll(".reveal");
 
-  const observer = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add("active");
-        }
-      });
-    },
-    {
-      threshold: 0.12,
-    }
-  );
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("active");
+          }
+        });
+      },
+      {
+        threshold: 0.12,
+      }
+    );
 
-  revealElements.forEach((el) => observer.observe(el));
+    revealElements.forEach((el) => observer.observe(el));
 
-  return () => observer.disconnect();
-}, [assetsLoaded]);
+    return () => observer.disconnect();
+  }, [assetsLoaded]);
 
   useEffect(() => {
     window.history.scrollRestoration = "manual";
@@ -133,58 +137,107 @@ function App() {
   }, [invitationOpened]);
 
   useEffect(() => {
-  const assetsToLoad = [
-    "/couple4.jpg",
-    "/Desktopkarta.png",
-    "/Olive-paper.png",
-    "/wax.png",
-  ];
+    const assetsToLoad = [
+      "/couple4.jpg",
+      "/Desktopkarta.png",
+      "/Olive-paper.png",
+      "/wax.png",
+    ];
 
-  const minimumLoadingTime = 1500;
-  const startTime = Date.now();
+    const minimumLoadingTime = 1500;
+    const startTime = Date.now();
 
-  const loadImage = (src) => {
-    return new Promise((resolve) => {
-      const img = new Image();
+    const loadImage = (src) => {
+      return new Promise((resolve) => {
+        const img = new Image();
 
-      img.onload = async () => {
-        try {
-          if (img.decode) {
-            await img.decode();
+        img.onload = async () => {
+          try {
+            if (img.decode) {
+              await img.decode();
+            }
+          } catch {
+            // Ako decode ne uspije, svejedno nastavljamo.
           }
-        } catch {
-          // Ako decode ne uspije, svejedno nastavljamo.
-        }
 
-        resolve();
-      };
+          resolve();
+        };
 
-      img.onerror = resolve;
-      img.src = src;
+        img.onerror = resolve;
+        img.src = src;
+      });
+    };
+
+    const loadAssets = async () => {
+      await Promise.all([
+        ...assetsToLoad.map(loadImage),
+        document.fonts ? document.fonts.ready : Promise.resolve(),
+      ]);
+
+      const elapsed = Date.now() - startTime;
+      const remainingTime = Math.max(minimumLoadingTime - elapsed, 0);
+
+      setTimeout(() => {
+        setLoadingLeaving(true);
+
+        setTimeout(() => {
+          setAssetsLoaded(true);
+        }, 1100);
+      }, remainingTime);
+    };
+
+    loadAssets();
+  }, []);
+
+  /* Strelica za dole */
+  useEffect(() => {
+    if (!invitationOpened) return;
+
+    const isMobile = window.matchMedia("(max-width: 767px)").matches;
+
+    if (!isMobile) return;
+
+    let userInteracted = false;
+
+    const hideScrollHint = () => {
+      userInteracted = true;
+      setShowScrollHint(false);
+    };
+
+    const timer = setTimeout(() => {
+      if (!userInteracted) {
+        setShowScrollHint(true);
+      }
+    }, 900);
+
+    window.addEventListener("scroll", hideScrollHint, {
+      passive: true,
+      once: true,
+    });
+
+    window.addEventListener("touchstart", hideScrollHint, {
+      passive: true,
+      once: true,
+    });
+
+    return () => {
+      clearTimeout(timer);
+      window.removeEventListener("scroll", hideScrollHint);
+      window.removeEventListener("touchstart", hideScrollHint);
+    };
+  }, [invitationOpened]);
+  /* Strelica za dole */
+
+  /* Strelica za dole */
+  const handleScrollHintClick = () => {
+    setShowScrollHint(false);
+
+    introTextRef.current?.scrollIntoView({
+      behavior: "smooth",
+      block: "center",
     });
   };
-
-  const loadAssets = async () => {
-    await Promise.all([
-      ...assetsToLoad.map(loadImage),
-      document.fonts ? document.fonts.ready : Promise.resolve(),
-    ]);
-
-    const elapsed = Date.now() - startTime;
-    const remainingTime = Math.max(minimumLoadingTime - elapsed, 0);
-
-    setTimeout(() => {
-  setLoadingLeaving(true);
-
-  setTimeout(() => {
-    setAssetsLoaded(true);
-  }, 1100);
-}, remainingTime);
-  };
-
-  loadAssets();
-}, []);
-
+  /* Strelica za dole */
   const handleGuestChange = (index, field, value) => {
     const updatedGuests = [...guests];
     updatedGuests[index][field] = value;
@@ -317,398 +370,409 @@ function App() {
       setIsFormClosing(false);
     }, 450);
   };
-  
+
   return (
-  <>
-    {!assetsLoaded && (
-  <div className={`loading-screen ${loadingLeaving ? "leaving" : ""}`}>
-    <div className="loading-envelope-card">
-      <img src="/wax.png" alt="" className="loading-seal" />
-    </div>
-  </div>
-)}
-
-    <main
-      className={`page ${!invitationOpened || envelopeOpening ? "envelope-active" : ""} ${envelopeOpening ? "invitation-opening" : ""}`}
-    >
-      {!invitationOpened && (
-        <>
-          <div className={`envelope-back-layer ${envelopeOpening ? "opening" : ""}`}>
-            <div className="envelope-card">
-              <div className="envelope-open-v-fill"></div>
-              <div className="envelope-flap-open"></div>
-            </div>
+    <>
+      {!assetsLoaded && (
+        <div className={`loading-screen ${loadingLeaving ? "leaving" : ""}`}>
+          <div className="loading-envelope-card">
+            <img src="/wax.png" alt="" className="loading-seal" />
           </div>
-
-          <div className={`envelope-front-layer ${envelopeOpening ? "opening" : ""}`}>
-            <div className="envelope-card">
-              <div className="envelope-mask"></div>
-              <div className="envelope-body"></div>
-              <div className="envelope-flap-closed"></div>
-
-              <button
-                type="button"
-                className="wax-seal"
-                onClick={() => {
-                  setEnvelopeOpening(true);
-
-                  setTimeout(() => {
-                    setInvitationOpened(true);
-                  }, 4200);
-                }}
-                aria-label="Otvori pozivnicu"
-              ></button>
-
-              <p>Dodirnite pečat za otvaranje pozivnice</p>
-            </div>
-          </div>
-        </>
+        </div>
       )}
 
-      <section className="hero">
+      <main
+        className={`page ${!invitationOpened || envelopeOpening ? "envelope-active" : ""} ${envelopeOpening ? "invitation-opening" : ""}`}
+      >
+        {!invitationOpened && (
+          <>
+            <div className={`envelope-back-layer ${envelopeOpening ? "opening" : ""}`}>
+              <div className="envelope-card">
+                <div className="envelope-open-v-fill"></div>
+                <div className="envelope-flap-open"></div>
+              </div>
+            </div>
 
-        <div className="photo-hero">
-          <img src="/couple4.jpg" alt="Marija i Ivan" />
-        </div>
+            <div className={`envelope-front-layer ${envelopeOpening ? "opening" : ""}`}>
+              <div className="envelope-card">
+                <div className="envelope-mask"></div>
+                <div className="envelope-body"></div>
+                <div className="envelope-flap-closed"></div>
 
-        <div className="hero-names-group reveal">
-          <p className="script">Zajedno sa svojim obiteljima</p>
+                <button
+                  type="button"
+                  className="wax-seal"
+                  onClick={() => {
+                    setEnvelopeOpening(true);
 
-          <h1>
-            Marija Perković
-            <span>&</span>
-            Ivan Sabljić
-          </h1>
-        </div>
+                    setTimeout(() => {
+                      setInvitationOpened(true);
+                    }, 4200);
+                  }}
+                  aria-label="Otvori pozivnicu"
+                ></button>
 
-        <p className="script reveal">s radošću vas pozivamo na naše vjenčanje</p>
+                <p>Dodirnite pečat za otvaranje pozivnice</p>
+              </div>
+            </div>
+          </>
+        )}
 
-        <p className="date reveal">PETAK, 11. RUJNA 2026.</p>
+        <section className="hero">
 
-        <div className="days-counter reveal">
-          <span>{daysLeft}</span>
-          <p>dana do vjenčanja</p>
-        </div>
+          <div className="photo-hero">
+            <img src="/couple4.jpg" alt="Marija i Ivan" />
+          </div>
 
-        <div className="timeline reveal">
-          <div className="timeline-curved">
-            <svg
-              className="timeline-path"
-              viewBox="0 0 620 360"
-              preserveAspectRatio="none"
-              aria-hidden="true"
-            >
-              <path
-                className="desktop-timeline-path"
-                d="M20 -55 V95 Q20 155 95 155 H560 Q635 155 635 230 V380"
+          <div className="hero-names-group reveal" ref={introTextRef}>
+            <p className="script">Zajedno sa svojim obiteljima</p>
+
+            <h1>
+              Marija Perković
+              <span>&</span>
+              Ivan Sabljić
+            </h1>
+          </div>
+
+          <p className="script reveal">s radošću vas pozivamo na naše vjenčanje</p>
+
+          <p className="date reveal">PETAK, 11. RUJNA 2026.</p>
+
+          <div className="days-counter reveal">
+            <span>{daysLeft}</span>
+            <p>dana do vjenčanja</p>
+          </div>
+
+          <div className="timeline reveal">
+            <div className="timeline-curved">
+              <svg
+                className="timeline-path"
+                viewBox="0 0 620 360"
+                preserveAspectRatio="none"
+                aria-hidden="true"
+              >
+                <path
+                  className="desktop-timeline-path"
+                  d="M20 -55 V95 Q20 155 95 155 H560 Q635 155 635 230 V380"
+                />
+                <circle cx="20" cy="35" r="7" className="svg-dot desktop-dot" />
+                <circle cx="635" cy="290" r="7" className="svg-dot desktop-dot" />
+              </svg>
+              <span className="mobile-line-dot ceremony"></span>
+              <span className="mobile-line-dot dinner"></span>
+              <div className="timeline-icon church-icon">
+                <Church size={24} strokeWidth={1.6} />
+              </div>
+
+              <div className="timeline-icon wine-icon">
+                <Wine size={24} strokeWidth={1.6} />
+              </div>
+
+              <div className="timeline-event ceremony">
+                <div>
+                  <h3>Obred vjenčanja</h3>
+                  <p>Crkva sv. Mati Slobode</p>
+                  <p>Jarun 1, Zagreb</p>
+                  <a
+                    href="https://www.google.com/maps/search/?api=1&query=Crkva%20sv.%20Mati%20Slobode%20Jarun%201%20Zagreb"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="map-link"
+                  >
+                    Prikaži na karti
+                  </a>
+                  <p>16:30h</p>
+                </div>
+              </div>
+
+              <div className="timeline-event dinner">
+                <div>
+                  <h3>Svečana večera</h3>
+                  <p>Wedding Resort Corberone</p>
+                  <p>Mačkovec, Brdovec</p>
+                  <a
+                    href="https://www.google.com/maps/search/?api=1&query=Wedding%20Resort%20Corberone%20Ma%C4%8Dkovec%20Brdovec"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="map-link"
+                  >
+                    Prikaži na karti
+                  </a>
+                  <p>18:00h</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+          <section className="bus-section reveal">
+            <h2>Organizirani prijevoz autobusom</h2>
+            <p>
+              Autobus bi okvirno prolazio rutom:
+              <br />
+              <strong>
+                Otočac → Gospić → Korenica → Plitvička Jezera → Crkva sv. Mati Slobode → Corberone
+              </strong>
+            </p>
+
+            <div className="map-wrapper">
+              <img
+                src="/Desktopkarta.png"
+                alt="Karta autobusne rute"
+                className="bus-map"
               />
-              <circle cx="20" cy="35" r="7" className="svg-dot desktop-dot" />
-              <circle cx="635" cy="290" r="7" className="svg-dot desktop-dot" />
-            </svg>
-            <span className="mobile-line-dot ceremony"></span>
-            <span className="mobile-line-dot dinner"></span>
-            <div className="timeline-icon church-icon">
-              <Church size={24} strokeWidth={1.6} />
             </div>
 
-            <div className="timeline-icon wine-icon">
-              <Wine size={24} strokeWidth={1.6} />
-            </div>
+            <p className="small-note">
+              Točna ruta, stanice i vrijeme polaska bit će naknadno dogovoreni
+              prema broju zainteresiranih.
+            </p>
+          </section>
 
-            <div className="timeline-event ceremony">
-              <div>
-                <h3>Obred vjenčanja</h3>
-                <p>Crkva sv. Mati Slobode</p>
-                <p>Jarun 1, Zagreb</p>
-                <a
-                  href="https://www.google.com/maps/search/?api=1&query=Crkva%20sv.%20Mati%20Slobode%20Jarun%201%20Zagreb"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="map-link"
-                >
-                  Prikaži na karti
-                </a>
-                <p>16:30h</p>
-              </div>
-            </div>
-
-            <div className="timeline-event dinner">
-              <div>
-                <h3>Svečana večera</h3>
-                <p>Wedding Resort Corberone</p>
-                <p>Mačkovec, Brdovec</p>
-                <a
-                  href="https://www.google.com/maps/search/?api=1&query=Wedding%20Resort%20Corberone%20Ma%C4%8Dkovec%20Brdovec"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="map-link"
-                >
-                  Prikaži na karti
-                </a>
-                <p>18:00h</p>
-              </div>
-            </div>
-          </div>
-        </div>
-
-
-        <section className="bus-section reveal">
-          <h2>Organizirani prijevoz autobusom</h2>
-          <p>
-            Autobus bi okvirno prolazio rutom:
-            <br />
-            <strong>
-              Otočac → Gospić → Korenica → Plitvička Jezera → Crkva sv. Mati Slobode → Corberone
-            </strong>
+          <p className="script big reveal">
+            Vaša prisutnost učinit će ovaj dan još posebnijim
           </p>
+          <p>Molimo odgovorite na pozivnicu do 15. srpnja 2026.</p>
 
-          <div className="map-wrapper">
-            <img
-              src="/Desktopkarta.png"
-              alt="Karta autobusne rute"
-              className="bus-map"
-            />
-          </div>
+          {submitted && (
+            <section
+              className="success-card reveal"
+              ref={successRef}
+            >
+              <h2>Hvala na odgovoru!</h2>
+              <p>Vaša potvrda je uspješno zaprimljena.</p>
+              <p className="success-note">
+                Ako naknadno dođe do promjene, slobodno ponovno ispunite obrazac ili nam se javite.
+              </p>
+            </section>
+          )}
 
-          <p className="small-note">
-            Točna ruta, stanice i vrijeme polaska bit će naknadno dogovoreni
-            prema broju zainteresiranih.
-          </p>
+          {!showForm && !submitted && (
+            <button
+              className="primary-button"
+              onClick={() => {
+                setSubmitted(false);
+                setShowForm(true);
+
+                setTimeout(() => {
+                  if (!formRef.current) return;
+
+                  const targetY = formRef.current.offsetTop - 40;
+                  const startY = window.scrollY;
+                  const distance = targetY - startY;
+                  const duration = 1400;
+                  let startTime = null;
+
+                  const easeInOutCubic = (t) => {
+                    return t < 0.5
+                      ? 4 * t * t * t
+                      : 1 - Math.pow(-2 * t + 2, 3) / 2;
+                  };
+
+                  const animation = (currentTime) => {
+                    if (!startTime) startTime = currentTime;
+
+                    const timeElapsed = currentTime - startTime;
+                    const progress = Math.min(timeElapsed / duration, 1);
+
+                    const ease = easeInOutCubic(progress);
+
+                    window.scrollTo(0, startY + distance * ease);
+
+                    if (timeElapsed < duration) {
+                      requestAnimationFrame(animation);
+                    }
+                  };
+
+                  requestAnimationFrame(animation);
+                }, 100);
+              }}
+            >
+              Odgovorite na pozivnicu
+            </button>
+          )}
         </section>
 
-        <p className="script big reveal">
-          Vaša prisutnost učinit će ovaj dan još posebnijim
-        </p>
-        <p>Molimo odgovorite na pozivnicu do 15. srpnja 2026.</p>
-
-        {submitted && (
+        {showForm && (
           <section
-            className="success-card reveal"
-            ref={successRef}
+            className={`card form-card ${isFormClosing ? "card-closing" : ""}`}
+            ref={formRef}
           >
-            <h2>Hvala na odgovoru!</h2>
-            <p>Vaša potvrda je uspješno zaprimljena.</p>
-            <p className="success-note">
-              Ako naknadno dođe do promjene, slobodno ponovno ispunite obrazac ili nam se javite.
-            </p>
+            <form onSubmit={handleSubmit} noValidate>
+              <div className="form-group">
+                <p className="question">
+                  Hoćete li prisustvovati našem vjenčanju?
+                </p>
+
+                <label className="radio-row">
+                  <input
+                    type="radio"
+                    name="attending"
+                    value="da"
+                    checked={attending === "da"}
+                    onChange={(e) => {
+                      setAttending(e.target.value);
+                      setShowGuestError("");
+                      smoothScrollToForm();
+                    }}
+                  />
+                  Da, dolazimo
+                </label>
+
+                <label className="radio-row">
+                  <input
+                    type="radio"
+                    name="attending"
+                    value="ne"
+                    checked={attending === "ne"}
+                    onChange={(e) => {
+                      setAttending(e.target.value);
+                      setShowGuestError("");
+                      smoothScrollToForm();
+                    }}
+                  />
+                  Nažalost, ne dolazimo
+                </label>
+              </div>
+
+              {attending === "ne" && (
+                <div className="attending-content">
+                  <div className="form-group">
+                    <label>Ime i prezime</label>
+                    <input
+                      type="text"
+                      value={fullName}
+                      onChange={(e) => setFullName(e.target.value)}
+                      placeholder="npr. Ivan Horvat"
+                    />
+
+                    {showGuestError && (
+                      <p className="form-error">
+                        {showGuestError}
+                      </p>
+                    )}
+                  </div>
+                </div>
+              )}
+
+              {attending === "da" && (
+                <div className="attending-content">
+                  <div className="form-group">
+                    <h2 className="form-label-title">Osobe koje dolaze</h2>
+
+                    {guests.map((guest, index) => (
+                      <div className="guest-box" key={index}>
+                        <input
+                          type="text"
+                          placeholder={`Ime i prezime osobe ${index + 1}`}
+                          value={guest.name}
+                          onChange={(e) =>
+                            handleGuestChange(index, "name", e.target.value)
+                          }
+                        />
+
+                        {index > 0 && (
+                          <label className="radio-row">
+                            <input
+                              type="checkbox"
+                              checked={guest.isChild}
+                              onChange={(e) =>
+                                handleGuestChange(
+                                  index,
+                                  "isChild",
+                                  e.target.checked
+                                )
+                              }
+                            />
+                            Dijete mlađe od 12 godina
+                          </label>
+                        )}
+
+                        {index > 0 && (
+                          <button
+                            type="button"
+                            className="secondary-button"
+                            onClick={() => removeGuest(index)}
+                          >
+                            Ukloni osobu
+                          </button>
+                        )}
+                      </div>
+                    ))}
+
+                    {showGuestError && (
+                      <p className="form-error">
+                        {showGuestError}
+                      </p>
+                    )}
+
+                    <button
+                      type="button"
+                      className="secondary-button"
+                      onClick={addGuest}
+                    >
+                      Dodaj osobu
+                    </button>
+                  </div>
+
+
+
+                  <label className="checkbox-row">
+                    <input
+                      className="round-check"
+                      type="checkbox"
+                      checked={busConfirmed}
+                      onChange={(e) => setBusConfirmed(e.target.checked)}
+                    />
+                    Zainteresirani smo za organizirani prijevoz autobusom
+                  </label>
+
+                  <div className="form-group">
+                    <label className="form-label-title">
+                      Dodatne informacije
+                    </label>
+                    <textarea
+                      value={note}
+                      onChange={(e) => setNote(e.target.value)}
+                      placeholder="Npr. alergije, posebna prehrana ili druge važne napomene..."
+                      rows="4"
+                    />
+                  </div>
+                </div>
+              )}
+
+              {attending && (
+                <button
+                  className="primary-button full-width"
+                  type="submit"
+                  disabled={isSubmitting}
+                >
+                  {isSubmitting ? (
+                    <span className="loading-dots">
+                      <span></span>
+                      <span></span>
+                      <span></span>
+                    </span>
+                  ) : (
+                    "Pošalji odgovor"
+                  )}
+                </button>
+              )}
+            </form>
           </section>
         )}
 
-        {!showForm && !submitted && (
+        {showScrollHint && (
           <button
-            className="primary-button"
-            onClick={() => {
-              setSubmitted(false);
-              setShowForm(true);
-
-              setTimeout(() => {
-                if (!formRef.current) return;
-
-                const targetY = formRef.current.offsetTop - 40;
-                const startY = window.scrollY;
-                const distance = targetY - startY;
-                const duration = 1400;
-                let startTime = null;
-
-                const easeInOutCubic = (t) => {
-                  return t < 0.5
-                    ? 4 * t * t * t
-                    : 1 - Math.pow(-2 * t + 2, 3) / 2;
-                };
-
-                const animation = (currentTime) => {
-                  if (!startTime) startTime = currentTime;
-
-                  const timeElapsed = currentTime - startTime;
-                  const progress = Math.min(timeElapsed / duration, 1);
-
-                  const ease = easeInOutCubic(progress);
-
-                  window.scrollTo(0, startY + distance * ease);
-
-                  if (timeElapsed < duration) {
-                    requestAnimationFrame(animation);
-                  }
-                };
-
-                requestAnimationFrame(animation);
-              }, 100);
-            }}
+            type="button"
+            className="mobile-scroll-hint"
+            onClick={handleScrollHintClick}
+            aria-label="Prikaži tekst pozivnice"
           >
-            Odgovorite na pozivnicu
+            <span>⌄</span>
           </button>
         )}
-      </section>
-
-      {showForm && (
-        <section
-          className={`card form-card ${isFormClosing ? "card-closing" : ""}`}
-          ref={formRef}
-        >
-          <form onSubmit={handleSubmit} noValidate>
-            <div className="form-group">
-              <p className="question">
-                Hoćete li prisustvovati našem vjenčanju?
-              </p>
-
-              <label className="radio-row">
-                <input
-                  type="radio"
-                  name="attending"
-                  value="da"
-                  checked={attending === "da"}
-                  onChange={(e) => {
-                    setAttending(e.target.value);
-                    setShowGuestError("");
-                    smoothScrollToForm();
-                  }}
-                />
-                Da, dolazimo
-              </label>
-
-              <label className="radio-row">
-                <input
-                  type="radio"
-                  name="attending"
-                  value="ne"
-                  checked={attending === "ne"}
-                  onChange={(e) => {
-                    setAttending(e.target.value);
-                    setShowGuestError("");
-                    smoothScrollToForm();
-                  }}
-                />
-                Nažalost, ne dolazimo
-              </label>
-            </div>
-
-            {attending === "ne" && (
-              <div className="attending-content">
-                <div className="form-group">
-                  <label>Ime i prezime</label>
-                  <input
-                    type="text"
-                    value={fullName}
-                    onChange={(e) => setFullName(e.target.value)}
-                    placeholder="npr. Ivan Horvat"
-                  />
-
-                  {showGuestError && (
-                    <p className="form-error">
-                      {showGuestError}
-                    </p>
-                  )}
-                </div>
-              </div>
-            )}
-
-            {attending === "da" && (
-              <div className="attending-content">
-                <div className="form-group">
-                  <h2 className="form-label-title">Osobe koje dolaze</h2>
-
-                  {guests.map((guest, index) => (
-                    <div className="guest-box" key={index}>
-                      <input
-                        type="text"
-                        placeholder={`Ime i prezime osobe ${index + 1}`}
-                        value={guest.name}
-                        onChange={(e) =>
-                          handleGuestChange(index, "name", e.target.value)
-                        }
-                      />
-
-                      {index > 0 && (
-                        <label className="radio-row">
-                          <input
-                            type="checkbox"
-                            checked={guest.isChild}
-                            onChange={(e) =>
-                              handleGuestChange(
-                                index,
-                                "isChild",
-                                e.target.checked
-                              )
-                            }
-                          />
-                          Dijete mlađe od 12 godina
-                        </label>
-                      )}
-
-                      {index > 0 && (
-                        <button
-                          type="button"
-                          className="secondary-button"
-                          onClick={() => removeGuest(index)}
-                        >
-                          Ukloni osobu
-                        </button>
-                      )}
-                    </div>
-                  ))}
-
-                  {showGuestError && (
-                    <p className="form-error">
-                      {showGuestError}
-                    </p>
-                  )}
-
-                  <button
-                    type="button"
-                    className="secondary-button"
-                    onClick={addGuest}
-                  >
-                    Dodaj osobu
-                  </button>
-                </div>
-
-
-
-                <label className="checkbox-row">
-                  <input
-                    className="round-check"
-                    type="checkbox"
-                    checked={busConfirmed}
-                    onChange={(e) => setBusConfirmed(e.target.checked)}
-                  />
-                  Zainteresirani smo za organizirani prijevoz autobusom
-                </label>
-
-                <div className="form-group">
-                  <label className="form-label-title">
-                    Dodatne informacije
-                  </label>
-                  <textarea
-                    value={note}
-                    onChange={(e) => setNote(e.target.value)}
-                    placeholder="Npr. alergije, posebna prehrana ili druge važne napomene..."
-                    rows="4"
-                  />
-                </div>
-              </div>
-            )}
-
-            {attending && (
-              <button
-                className="primary-button full-width"
-                type="submit"
-                disabled={isSubmitting}
-              >
-                {isSubmitting ? (
-                  <span className="loading-dots">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                  </span>
-                ) : (
-                  "Pošalji odgovor"
-                )}
-              </button>
-            )}
-          </form>
-        </section>
-      )}
-    </main>
+      </main>
     </>
   );
 }

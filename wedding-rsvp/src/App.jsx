@@ -190,53 +190,42 @@ function App() {
   }, []);
 
   /* Strelica za dole */
-  useEffect(() => {
-    if (!invitationOpened) return;
+ useEffect(() => {
+  if (!invitationOpened) return;
 
-    const isMobile = window.matchMedia("(max-width: 767px)").matches;
+  const isMobile = window.matchMedia("(max-width: 767px)").matches;
 
-    if (!isMobile) return;
+  if (!isMobile) return;
 
-    let userInteracted = false;
+  const showTimer = setTimeout(() => {
+    setShowScrollHint(true);
+  }, 900);
 
-    const hideScrollHint = () => {
-      userInteracted = true;
-      setShowScrollHint(false);
-    };
+  const hideScrollHint = () => {
+    setShowScrollHint(false);
+  };
 
-    const timer = setTimeout(() => {
-      if (!userInteracted) {
-        setShowScrollHint(true);
-      }
-    }, 900);
+  window.addEventListener("scroll", hideScrollHint, {
+    passive: true,
+    once: true,
+  });
 
-    window.addEventListener("scroll", hideScrollHint, {
-      passive: true,
-      once: true,
-    });
-
-    window.addEventListener("touchstart", hideScrollHint, {
-      passive: true,
-      once: true,
-    });
-
-    return () => {
-      clearTimeout(timer);
-      window.removeEventListener("scroll", hideScrollHint);
-      window.removeEventListener("touchstart", hideScrollHint);
-    };
-  }, [invitationOpened]);
+  return () => {
+    clearTimeout(showTimer);
+    window.removeEventListener("scroll", hideScrollHint);
+  };
+}, [invitationOpened]);
   /* Strelica za dole */
 
   /* Strelica za dole */
   const handleScrollHintClick = () => {
-    setShowScrollHint(false);
+  setShowScrollHint(false);
 
-    introTextRef.current?.scrollIntoView({
-      behavior: "smooth",
-      block: "center",
-    });
-  };
+  introTextRef.current?.scrollIntoView({
+    behavior: "smooth",
+    block: "center",
+  });
+};
   /* Strelica za dole */
   const handleGuestChange = (index, field, value) => {
     const updatedGuests = [...guests];
@@ -423,7 +412,7 @@ function App() {
           <div className="photo-hero">
             <img src="/couple4.jpg" alt="Marija i Ivan" />
 
-            {true && (
+            {showScrollHint && (
               <button
                 type="button"
                 className="mobile-scroll-hint"

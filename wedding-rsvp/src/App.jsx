@@ -258,6 +258,24 @@ function App() {
       .join(" ");
   };
 
+  const hasFirstAndLastName = (value) => {
+    const parts = value
+      .trim()
+      .split(/\s+/)
+      .filter(Boolean);
+
+    return parts.length >= 2 && parts.every((part) => part.length >= 2);
+  };
+
+  const hasMaxThreeWords = (value) => {
+    const parts = value
+      .trim()
+      .split(/\s+/)
+      .filter(Boolean);
+
+    return parts.length <= 3;
+  };
+
   const handleGuestChange = (index, field, value) => {
     const updatedGuests = [...guests];
 
@@ -315,17 +333,25 @@ function App() {
     e.preventDefault();
     if (
       attending === "da" &&
-      guests.some((guest) => !guest.name.trim())
+      guests.some((guest) => !hasFirstAndLastName(guest.name))
     ) {
       setShowGuestError("Molimo unesite ime i prezime za sve osobe.");
       return;
     }
 
     if (
-      attending === "ne" &&
-      !fullName.trim()
+      attending === "da" &&
+      guests.some((guest) => !hasMaxThreeWords(guest.name))
     ) {
-      setShowGuestError("Molimo unesite ime i prezime.");
+      setShowGuestError("Molimo unesite svaku osobu posebno. Jedan unos može imati najviše tri riječi.");
+      return;
+    }
+
+    if (
+      attending === "ne" &&
+      !hasMaxThreeWords(fullName)
+    ) {
+      setShowGuestError("Molimo unesite samo svoje ime i prezime.");
       return;
     }
 

@@ -239,33 +239,33 @@ function App() {
   /* Strelica za dole */
 
   const formatPersonName = (value) => {
-  return value
-    .replace(/[^A-Za-zÀ-ž\s'-]/g, "")
-    .replace(/\s+/g, " ")
-    .split(" ")
-    .map((word) => {
-      if (!word) return "";
+    return value
+      .replace(/[^A-Za-zÀ-ž\s'-]/g, "")
+      .replace(/\s+/g, " ")
+      .split(" ")
+      .map((word) => {
+        if (!word) return "";
 
-      return word
-        .split("-")
-        .map((part) =>
-          part
-            ? part.charAt(0).toUpperCase() + part.slice(1).toLowerCase()
-            : ""
-        )
-        .join("-");
-    })
-    .join(" ");
-};
+        return word
+          .split("-")
+          .map((part) =>
+            part
+              ? part.charAt(0).toUpperCase() + part.slice(1).toLowerCase()
+              : ""
+          )
+          .join("-");
+      })
+      .join(" ");
+  };
 
   const handleGuestChange = (index, field, value) => {
-  const updatedGuests = [...guests];
+    const updatedGuests = [...guests];
 
-  updatedGuests[index][field] =
-    field === "name" ? formatPersonName(value) : value;
+    updatedGuests[index][field] =
+      field === "name" ? formatPersonName(value) : value;
 
-  setGuests(updatedGuests);
-};
+    setGuests(updatedGuests);
+  };
 
   const addGuest = () => {
     setGuests([...guests, { name: "", isChild: false }]);
@@ -779,9 +779,7 @@ function App() {
                       maxLength={300}
                     />
 
-                    <p className="character-count">
-                      {note.length}/300
-                    </p>
+
                   </div>
                 </div>
               )}

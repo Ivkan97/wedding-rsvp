@@ -1817,14 +1817,3 @@ body.intro-active .envelope-mask {
     transform: translateX(-50%) translateY(10px) scale(0.94);
   }
 }
-
-.character-count {
-  margin: 6px 2px 0;
-
-  text-align: right;
-
-  font-family: "Josefin Sans", sans-serif;
-  font-size: 13px;
-
-  color: rgba(47, 58, 45, 0.55);
-}

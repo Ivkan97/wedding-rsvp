@@ -423,7 +423,7 @@ function App() {
           <div className="photo-hero">
             <img src="/couple4.jpg" alt="Marija i Ivan" />
 
-            {showScrollHint && (
+            {true && (
               <button
                 type="button"
                 className="mobile-scroll-hint"

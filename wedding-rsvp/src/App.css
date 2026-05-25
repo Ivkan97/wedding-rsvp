@@ -1729,7 +1729,7 @@ body.intro-active .envelope-mask {
     position: absolute;
 
     left: 50%;
-    bottom: 18px;
+    bottom: 34px;
 
     z-index: 5;
 
@@ -1749,8 +1749,7 @@ body.intro-active .envelope-mask {
     color: #2f3a2d;
 
     box-shadow:
-      0 10px 26px rgba(20, 28, 20, 0.14),
-      0 2px 8px rgba(20, 28, 20, 0.08);
+      0 4px 12px rgba(20, 28, 20, 0.10);
 
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);

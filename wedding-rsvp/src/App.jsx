@@ -24,6 +24,7 @@ function App() {
   /* Strelica za dole */
   const [showScrollHint, setShowScrollHint] = useState(false);
   const introTextRef = useRef(null);
+  const [scrollHintLeaving, setScrollHintLeaving] = useState(false);
   /* Strelica za dole */
 
   useEffect(() => {
@@ -190,42 +191,51 @@ function App() {
   }, []);
 
   /* Strelica za dole */
- useEffect(() => {
-  if (!invitationOpened) return;
+  useEffect(() => {
+    if (!invitationOpened) return;
 
-  const isMobile = window.matchMedia("(max-width: 767px)").matches;
+    const isMobile = window.matchMedia("(max-width: 767px)").matches;
 
-  if (!isMobile) return;
+    if (!isMobile) return;
 
-  const showTimer = setTimeout(() => {
-    setShowScrollHint(true);
-  }, 250);
+    const showTimer = setTimeout(() => {
+      setShowScrollHint(true);
+    }, 250);
 
-  const hideScrollHint = () => {
-    setShowScrollHint(false);
-  };
+    const hideScrollHint = () => {
+      hideScrollHintSoftly();
+    };
 
-  window.addEventListener("scroll", hideScrollHint, {
-    passive: true,
-    once: true,
-  });
+    window.addEventListener("scroll", hideScrollHint, {
+      passive: true,
+      once: true,
+    });
 
-  return () => {
-    clearTimeout(showTimer);
-    window.removeEventListener("scroll", hideScrollHint);
-  };
-}, [invitationOpened]);
+    return () => {
+      clearTimeout(showTimer);
+      window.removeEventListener("scroll", hideScrollHint);
+    };
+  }, [invitationOpened]);
   /* Strelica za dole */
 
   /* Strelica za dole */
+  const hideScrollHintSoftly = () => {
+    setScrollHintLeaving(true);
+
+    setTimeout(() => {
+      setShowScrollHint(false);
+      setScrollHintLeaving(false);
+    }, 450);
+  };
+
   const handleScrollHintClick = () => {
-  setShowScrollHint(false);
+    hideScrollHintSoftly();
 
-  introTextRef.current?.scrollIntoView({
-    behavior: "smooth",
-    block: "center",
-  });
-};
+    introTextRef.current?.scrollIntoView({
+      behavior: "smooth",
+      block: "center",
+    });
+  };
   /* Strelica za dole */
   const handleGuestChange = (index, field, value) => {
     const updatedGuests = [...guests];
@@ -415,7 +425,7 @@ function App() {
             {showScrollHint && (
               <button
                 type="button"
-                className="mobile-scroll-hint"
+                className={`mobile-scroll-hint ${scrollHintLeaving ? "leaving" : ""}`}
                 onClick={handleScrollHintClick}
                 aria-label="Prikaži tekst pozivnice"
               >

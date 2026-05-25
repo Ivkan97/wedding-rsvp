@@ -1766,6 +1766,11 @@ body.intro-active .envelope-mask {
       photoScrollHintFloat 1.65s ease-in-out 0.65s infinite;
   }
 
+  .photo-hero .mobile-scroll-hint.leaving {
+  animation: scrollHintSoftDisappear 0.45s ease forwards;
+  pointer-events: none;
+}
+
   .photo-hero .mobile-scroll-hint span {
     display: block;
 
@@ -1798,5 +1803,17 @@ body.intro-active .envelope-mask {
   to {
     opacity: 1;
     transform: translateX(-50%) translateY(0) scale(1);
+  }
+}
+
+@keyframes scrollHintSoftDisappear {
+  from {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0) scale(1);
+  }
+
+  to {
+    opacity: 0;
+    transform: translateX(-50%) translateY(10px) scale(0.94);
   }
 }

@@ -349,6 +349,14 @@ function App() {
 
     if (
       attending === "ne" &&
+      !hasFirstAndLastName(fullName)
+    ) {
+      setShowGuestError("Molimo unesite ime i prezime.");
+      return;
+    }
+
+    if (
+      attending === "ne" &&
       !hasMaxThreeWords(fullName)
     ) {
       setShowGuestError("Molimo unesite samo svoje ime i prezime.");
